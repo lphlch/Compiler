@@ -77,6 +77,7 @@
 
 
 %}
+
 %x ML_COMMENT
 preprocessor_directives #.*
 alpha       [a-zA-Z]
@@ -91,8 +92,8 @@ CCONST      (\'{print}\')|(\'\\[nftrbv]\')
 STRING      \"{print}*\"
 %%
 
-"//".*                  { printf("Eat up comment at line %d\n", lineno); } 
-"/*"                    { printf("Eat up comment from line %d ", lineno); BEGIN(ML_COMMENT); }
+"//".*                  { printf("SINGLE_COMMENT at line %d\n", lineno); } 
+"/*"                    { printf("MULTY_COMMENT from line %d ", lineno); BEGIN(ML_COMMENT); }
 <ML_COMMENT>"*/"        { printf("to line %d\n", lineno); BEGIN(INITIAL); }
 <ML_COMMENT>[^*\n]+     
 <ML_COMMENT>"*"         
@@ -142,6 +143,7 @@ STRING      \"{print}*\"
 ","             { print("COMMA"); _r_comma += 1; }
 "="             { print("ASSIGN"); _r_assign += 1; }
 '#'             { print("END");}
+
 {preprocessor_directives} { print("PREPROCESSOR DIRECTIVES"); }
 {ARRAY}         { print("ARRAY"); }
 {ID}            { print("ID"); }
@@ -160,7 +162,7 @@ STRING      \"{print}*\"
 int a;
 void print(char *token_type){
     a++;
-    printf("yytext: %s\ttoken: %s\tlineno: %d\n", yytext, token_type, lineno);
+    printf("symbol: %s\ttoken: %s\tlineno: %d\n", yytext, token_type, lineno);
 }
  
 void yyerror(char *message){
@@ -172,6 +174,6 @@ int main(int argc, char *argv[]){
     yyin = fopen(argv[1], "r");
     yylex();
     fclose(yyin);
-    printf("Total Lexemes %d", a);
+    printf("Total %d", a);
     return 0;
 }
