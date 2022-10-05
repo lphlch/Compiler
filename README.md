@@ -7,11 +7,9 @@
 3. Clone the repository
 4. Run the *run.bat*
 
-
-
 ## To Do
 
-* Rename the keywords
-* Rewrite the print function
-* Add a function of counting the number of symbols
-* Add a function of pre-processing function, to read a whole sentence at once, delete comments and print the source codes
+- [ ] Rename the keywords
+- [ ] Rewrite the print function
+- [x] Add more supporting symbols
+- [ ] Add a function of pre-processing function, to read a whole sentence at once, delete comments and print the source codes

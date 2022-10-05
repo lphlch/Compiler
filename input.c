@@ -14,6 +14,10 @@ int main(){
     {
         b += arr[i];
     }
+
+    printf("233abc#include\n%d", b);
+    int s="STRINGTEststring";
+
     /* mulit line comment
 
     hh...
