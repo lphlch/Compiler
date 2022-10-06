@@ -78,7 +78,7 @@
     int _r_dot = 0;
     int _r_assign = 0;
     int _r_pointer = 0;
-    int _r_& = 0;
+    int _r_quote = 0;
 
 
     int _r_return = 0;
@@ -180,7 +180,7 @@ STRING      \"{print}*\"
 ","             { print("comma"); _r_comma += 1; }
 "="             { print("assign"); _r_assign += 1; }
 "."             { print("dot"); _r_dot +=1;}
-"&"             { print("quote_address"); _r_& += 1; }
+"&"             { print("quote_or_address"); _r_quote += 1; }
 '#'             { print("end");}
 
 {preprocessor_directives} { print("Preprocessor Directives"); }
