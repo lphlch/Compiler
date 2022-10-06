@@ -9,7 +9,7 @@
 
 ## To Do
 
-- [ ] Rename the keywords
-- [ ] Rewrite the print function
+- [x] Rename the keywords
+- [x] Rewrite the print function
 - [x] Add more supporting symbols
 - [ ] Add a function of pre-processing function, to read a whole sentence at once, delete comments and print the source codes
