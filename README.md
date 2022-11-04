@@ -9,10 +9,21 @@
 
 ## To Do
 
+### Lex part
+
 - [x] Rename the keywords
 - [x] Rewrite the print function
 - [x] Add more supporting symbols
 - [ ] Add a function of pre-processing function, to read a whole sentence at once, delete comments and print the source codes
+
+### Syntax part
+
+- [ ] Grammar input process & create FIRST set
+- [ ] Sentence input process & transform into FORMAL present
+- [ ] from FIRST set to CLOSURE set
+- [ ] from CLOSURE set to ACTION/GOTO table
+- [ ] from FORMAL present & ACTION/GOTO table to solve the syntax
+- [ ] show the result in a tree
 
 ## Requirement
 
@@ -100,5 +111,5 @@ FORMAL_SENTENSE=[
 
 移进/归约分析
 
-输出 **分析过程 ** 和 **语法树**
+输出 **分析过程** 和 **语法树**
 
