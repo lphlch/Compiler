@@ -1,0 +1,46 @@
+
+
+D->D_S
+D_S->D_H D_B
+D_H->KEYWORD_char | KEYWORD_int | KEYWORD_float | KEYWORD_double | KEYWORD_string
+D_B->D_WV | D_WOV
+D_WOV->id
+D_WV->id assign VALUE
+VALUE->integer | decimal | charConst | stringConst
+#
+integer
+decimal
+charConst
+stringConst
+id
+assign
+KEYWORD_char
+KEYWORD_int
+KEYWORD_float
+KEYWORD_double
+KEYWORD_string
+#
+
+K->E
+E->T
+T->F
+F->c
+#
+c
+#
+
+
+E->T E1
+E->+ T E1 | e
+T->F T1
+T1->* F T1 | e
+F->( E ) | i
+#
++
+*
+e
+i
+(
+)
+#
+

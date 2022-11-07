@@ -35,26 +35,27 @@
 
 #### Data Flow
 
-![](dataflow.png)
+![](resource/dataflow.png)
 
 输入处理，变成内部的数据结构
 
 ```python
-input="S->F | T"
+input="S->F KK | T" # use the space to spilt symbol, no space in around the ->
 Grammar={
-    # 'name':[symbol1,symbol2,...]
-    'S':[F,T],
+    # 'name':[symbol1List,symbol2List,...]
+    'S':[[F,KK],[T]]
     'F':[...]
 }
+KeywordsList=['e','a',...]
 ```
 
 求FIRST集
 
 ```python
 FIRST={
-    #'name':[first_set]
-    'S':[F,T],
-    'F':[...]
+    #'name':{first_set}
+    'S':{F,T},
+    'F':{...}
 }
 ```
 
@@ -112,4 +113,67 @@ FORMAL_SENTENSE=[
 移进/归约分析
 
 输出 **分析过程** 和 **语法树**
+
+## Test data
+
+```python
+# ppt chapter 4 page 34
+E->T E1
+E->+ T E1 | e
+T->F T1
+T1->* F T1 | e
+F->( E ) | i
+#
++
+*
+e
+i
+(
+)
+#
+
+# homework 4
+S->a | b | ( T )
+T->S T1
+T1->, S T1 | e
+#
+(
+)
+a
+b
+,
+e
+#
+
+# ppt chapter 5 page 120
+S1->S
+S->B B
+B->a B
+B->b
+
+# declare varible
+D->D_S
+D_S->D_H D_B
+D_H->KEYWORD_char | KEYWORD_int | KEYWORD_float | KEYWORD_double | KEYWORD_string
+D_B->D_WV | D_WOV
+D_WOV->id
+D_WV->id assign VALUE
+VALUE->integer | decimal | charConst | stringConst
+#
+integer
+decimal
+charConst
+stringConst
+id
+assign
+KEYWORD_char
+KEYWORD_int
+KEYWORD_float
+KEYWORD_double
+KEYWORD_string
+#
+
+```
+
+
 

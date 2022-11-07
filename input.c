@@ -4,7 +4,8 @@
 int main(){
 
     int a = 10;
-    int floatnum=10.55222;
+    float floatnum=10.55222;
+    cahr c='c';
 	// Test commit
     getfunction(a);
 	//function declaration

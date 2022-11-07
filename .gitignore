@@ -31,3 +31,6 @@
 *.out
 *.app
 lex.yy.c
+*.pyc
+test.py
+testrun.bat

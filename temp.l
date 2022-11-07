@@ -189,8 +189,8 @@ STRING      \"{print}*\"
 {INTEGER}        { print("integer"); }
 {FCONST}        { print("decimal"); }
 {EXPFCONST}    { print("exponential"); }
-{CCONST}        { print("CCONST"); }
-{STRING}        { print("STRING"); }
+{CCONST}        { print("charConst"); }
+{STRING}        { print("stringConst"); }
  
  
 "\n"            { lineno += 1; }
@@ -202,7 +202,7 @@ STRING      \"{print}*\"
 int a;
 void print(char *token_type){
     a++;
-    printf("【%s\t%s\t%d】\n", yytext, token_type, lineno);
+    printf("[%s\t%s\t%d]\n", yytext, token_type, lineno);
     /*printf("【%-*s",30,yytext);
     printf("%-*s",30,token_type);
     printf("%5d】\n",lineno);*/
@@ -215,7 +215,7 @@ void yyerror(char *message){
  
 int main(int argc, char *argv[]){
     yyin = fopen(argv[1], "r");
-    printf("【yytext\ttoken\tlineno】\n");
+    printf("[yytext\ttoken\tlineno]\n");
     yylex();
     fclose(yyin);
     printf("Total %d", a);
