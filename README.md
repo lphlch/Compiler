@@ -62,43 +62,25 @@ FIRST={
 构造CLOSURE
 
 ```python
-CLOSURE= [
-    # [state1_closure,state2_closure]
-    [# state 0
-        #'name':[closure]
-        'S':[
-            	#[sentence,point_position]
-                [ [F,T], 1 ],
-                [...]
-        ]
-        'T':[...]
-    ],
-	[ #state 1
-        ...
-    ]
-]
+accept_grammar_point={
+    #包括展望符号以及点的位置
+    {'l':['S'],'r':['B','B'],'point':0,'forward':'a'}#0
+    {...}#1
+    ...
+}
+#输出到accept.txt
+CLOSURESET={#项目集族，里面的数字对应accept_grammar_point的下标
+    [0,1,3,5,7],#I0
+    [2,4,6,8],#I1
+    ...#In
+}
+#输出到CLOSURESET.txt
 ```
 
 求ACTION表和GOTO表
 
 ```python
-ACTION_GOTO=[
-    # [state0_ac/goto,state1_ac/goto]
-    [	# state 0 {ac:operation,goto:operation}
-        'action':{
-            #'name':[action,push_number]
-            'S':[PUSH,3],
-            'T':[POP,4]
-        }
-        'goto':{
-            'S':[PUSH,3],
-            'T':[POP,4]
-        } 
-    ]
-    [
-        # state 1...
-    ]
-]
+ xxxxxxxxxx ACTION_GOTO=[#ACTION_GO[状态i][符号j]，0为acc，x为移进，-x为用产生式x规约（这个产生式下标为accept_grammar_point的下标号    # [state0_ac/goto,state1_ac/goto]    [   # state 0 {ac:operation,goto:operation}       'a':#在状态0遇见a做什么       'S':#遇见S做什么    ]    [        # state 1...    ]]#输出到ACTION_GOTO.txt
 ```
 
 从输入的单词串转为形式化句子
