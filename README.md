@@ -80,7 +80,16 @@ CLOSURESET={#项目集族，里面的数字对应accept_grammar_point的下标
 求ACTION表和GOTO表
 
 ```python
- xxxxxxxxxx ACTION_GOTO=[#ACTION_GO[状态i][符号j]，0为acc，x为移进，-x为用产生式x规约（这个产生式下标为accept_grammar_point的下标号    # [state0_ac/goto,state1_ac/goto]    [   # state 0 {ac:operation,goto:operation}       'a':#在状态0遇见a做什么       'S':#遇见S做什么    ]    [        # state 1...    ]]#输出到ACTION_GOTO.txt
+ ACTION_GOTO=[#ACTION_GO[状态i][符号j]，0为acc，x为移进，-x为用产生式x规约（这个产生式下标为accept_grammar_point的下标号    
+     # [state0_ac/goto,state1_ac/goto]    
+     [   # state 0 {ac:operation,goto:operation}       
+         'a':#在状态0遇见a做什么       
+         'S':#遇见S做什么    
+     ]    
+     [        # state 1...    
+     ]
+ ]
+ #输出到ACTION_GOTO.txt
 ```
 
 从输入的单词串转为形式化句子
