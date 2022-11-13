@@ -1,24 +1,23 @@
-
-
+D'->D
 D->D_S
 D_S->D_H D_B
-D_H->KEYWORD_char | KEYWORD_int | KEYWORD_float | KEYWORD_double | KEYWORD_string
+D_H->char | int | float | double | string
 D_B->D_WV | D_WOV
-D_WOV->id
-D_WV->id assign VALUE
-VALUE->integer | decimal | charConst | stringConst
+D_WOV-><ID>
+D_WV-><ID> = VALUE
+VALUE-><INT> | decimal | charConst | stringConst
 #
-integer
+int
 decimal
 charConst
 stringConst
-id
-assign
-KEYWORD_char
-KEYWORD_int
-KEYWORD_float
-KEYWORD_double
-KEYWORD_string
+<ID>
+=
+char
+<INT>
+float
+double
+string
 #
 
 K->E
