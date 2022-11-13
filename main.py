@@ -1,7 +1,7 @@
 from GrammarInputProcess import getInput,getFirstSet,transformInput
 from SentenceFormaler import getSentenceInput,callLex,processLexResult
 from ActiongotoProcess import GET_ACTION_GOTO
-from AnalysisProcess import Analysis
+from AnalysisProcess import Analysishttps://github.com/lphlch/Compiler/blob/main/main.py
 
 inputs, keywordsList = getInput(1)  # input grammar
 grammar = transformInput(inputs)  # transform grammar to a list of productions
@@ -13,4 +13,4 @@ getSentenceInput(1)  # input sentence, save to file sentence.txt
 lexResultList = callLex("sentence.txt")  # call Lex.exe to analyze input
 formalList = processLexResult(lexResultList)  # get formal sentence
 
-analysis=Analysis(ACTION_GOTO,grammar)
+analysis=Analysis(ACTION_GOTO,point_grammar)
