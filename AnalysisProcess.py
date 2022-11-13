@@ -1,5 +1,3 @@
-import pandas as pd
-import numpy as np
 import json
 import sys
 
@@ -38,26 +36,34 @@ class SynAnalyze(object):
             fp.write(str(status_stack))
             fp.write('\n')
 
-            if now_token in self.LRTable[top_status].keys():  # 进行状态转移
+            #if now_token in self.LRTable[top_status].keys():  # 进行状态转移
+            if now_token in self.LRTable[top_status]:  # 进行状态转移
                 action = self.LRTable[top_status][now_token]
-                if action[0] == 'acc':
+                #if action[0] == 'acc':
+                if action==0:#成功
                     isSuccess = True
                     break
-                elif action[0] == 'S':
+                #elif action[0] == 'S':
+                elif action>0:#移进
                     if len(tree_layer_num) == 0:
                         tree_layer_num.append(0)
                     else:
                         tree_layer_num[0] += 1
-                    status_stack.append(action[1])
+                    #status_stack.append(action[1])
+                    status_stack.append(action)
                     symbol_stack.append((now_token, 0, tree_layer_num[0]))
                     tree_layer.append((now_token, 0, tree_layer_num[0]))
                     tokens = tokens[:-1]
-                elif action[0] == 'r':
-                    production = self.productions[action[1]]
-                    left = list(production.keys())[0]
+                #elif action[0] == 'r':
+                elif action<0:#规约
+                    #production = self.productions[action[1]]
+                    production = self.productions[-action]#获取产生式（包含点等信息
+                    #left = list(production.keys())[0]
+                    left=production["l"]#产生式左部分
                     next_line = 0
-                    if production[left] != ['$']:  # 不需修改两个栈
-                        right_length = len(production[left])
+                    #if production[left] != ['$']:  # 不需修改两个栈
+                    if production["r"] != ['ε']:#不为空要做改变，否则不改变
+                        right_length = len(production["r"])
                         status_stack = status_stack[:-right_length]
                         #symbol_stack = symbol_stack[:-right_length]
                         for i in range(len(symbol_stack) - 1, len(symbol_stack) - right_length - 1, -1):
@@ -82,7 +88,8 @@ class SynAnalyze(object):
                         tree_layer_num[next_line] += 1
                     for i in tree_line[-right_length:]:
                         i[2], i[3] = next_line, tree_layer_num[next_line]
-                    status_stack.append(go[1])
+                    #status_stack.append(go[1])
+                    status_stack.append(go)
                     symbol_stack.append(
                         (left, next_line, tree_layer_num[next_line]))
                     tree_layer.append(
@@ -92,7 +99,8 @@ class SynAnalyze(object):
                 #print('found: %s' % now_token)
                 #print('expecting:')
                 message+='\nline %s\n' % now_line_num+'found: %s\n' % now_token+'expecting:\n'
-                for exp in self.LRTable[top_status].keys():
+                #for exp in self.LRTable[top_status].keys():
+                for exp in self.LRTable[top_status]:
                     #print(exp)
                     message+=exp+'\n'
                 break
@@ -151,39 +159,12 @@ class SynAnalyze(object):
         else:
             return False,message
 
-#构造树的函数
-def pretty_dict(obj, indent=' '):
-    def _pretty(obj, indent):
-        for i, tup in enumerate(obj.items()):
-            k, v = tup
-            # 如果是字符串则拼上""
-            if isinstance(k,  str):
-                k = '"%s"' % k
-            if isinstance(v,  str):
-                v = '"%s"' % v
-            # 如果是字典则递归
-            if isinstance(v, dict):
-                v = ''.join(_pretty(v, indent + ' ' * len(str(k) + ': {')))  # 计算下一层的indent
-            # case,根据(k,v)对在哪个位置确定拼接什么
-            if i == 0:  # 开头,拼左花括号
-                if len(obj) == 1:
-                    yield '{%s: %s}' % (k, v)
-                else:
-                    yield '{%s: %s,\n' % (k, v)
-            elif i == len(obj) - 1:  # 结尾,拼右花括号
-                yield '%s%s: %s}' % (indent, k, v)
-            else:  # 中间
-                yield '%s%s: %s,\n' % (indent, k, v)
-
-    logfile = open(r'/tree.log', 'w')
-
-    print(''.join(_pretty(obj, indent)),file = logfile)
-    logfile.close()
-
-if __name__ == '__main__':
+def Analysis(ACTION_GOTO,grammar):
     SynGrammar_path = './SynGra.txt'  # 语法规则文件相对路径
-    TokenTable_path = './LexAnaResult.txt'  # 存储TOKEN表的相对路径
+    TokenTable_path = './lexical_analysis.txt'  # 存储TOKEN表的相对路径
     LRTable_path = './ActionGoto.csv'  # 存储LR表的相对路径
-    
+
     SA = SynAnalyze()
+    SA.LRTable=ACTION_GOTO
+    SA.productions=grammar
     SA.analyze(TokenTable_path,SynAnalyzeProcess_path="./StackInfo.txt")
