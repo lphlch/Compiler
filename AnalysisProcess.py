@@ -1,5 +1,7 @@
 import json
 import sys
+from pyecharts import options as opts
+from pyecharts.charts import Tree
 
 class SynAnalyze(object):
     "语法分析类"
@@ -39,6 +41,7 @@ class SynAnalyze(object):
             #if now_token in self.LRTable[top_status].keys():  # 进行状态转移
             if now_token in self.LRTable[top_status]:  # 进行状态转移
                 action = self.LRTable[top_status][now_token]
+                #print(action)
                 #if action[0] == 'acc':
                 if action==0:#成功
                     isSuccess = True
@@ -57,6 +60,7 @@ class SynAnalyze(object):
                 #elif action[0] == 'r':
                 elif action<0:#规约
                     #production = self.productions[action[1]]
+
                     production = self.productions[-action]#获取产生式（包含点等信息
                     #left = list(production.keys())[0]
                     left=production["l"]#产生式左部分
@@ -81,7 +85,7 @@ class SynAnalyze(object):
                             tree_layer_num[0] += 1
                         tree_layer.append(('$', 0, tree_layer_num[0]))
                         tree_line.append([0, tree_layer_num[0], 0, 0])
-                    go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态
+                    go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
                     if next_line == len(tree_layer_num):
                         tree_layer_num.append(0)
                     else:
@@ -96,7 +100,7 @@ class SynAnalyze(object):
                         (left, next_line, tree_layer_num[next_line]))
             else:  # 无法进行状态转移，报错
                 #print('line %s' % now_line_num)
-                #print('found: %s' % now_token)
+                #print('found: %s' % now_token)Syntax Error!
                 #print('expecting:')
                 message+='\nline %s\n' % now_line_num+'found: %s\n' % now_token+'expecting:\n'
                 #for exp in self.LRTable[top_status].keys():
@@ -129,6 +133,23 @@ class SynAnalyze(object):
         #print(json.dumps(data))
         file = open('SynTree.txt', 'w')
         file.write(json.dumps(data))
+        c = (#画树
+            Tree().add(
+                "",
+                data,
+                orient="TB",
+                initial_tree_depth=-1,
+                # collapse_interval=10,
+                symbol_size=3,
+                is_roam=True,
+                edge_shape="polyline",
+                # is_expand_and_collapse=False,
+                label_opts=opts.LabelOpts(
+                    position="top",
+                    horizontal_align="right",
+                    vertical_align="middle",
+                    # rotate='15',
+                    font_size=15)).set_global_opts(title_opts=opts.TitleOpts(title="语法树")).render("语法树.html"))
         # for i in range(len(data)):
         #     s = str(data[i]).replace('{', '').replace('}', '').replace("'", '').replace(':', ',') + '\n'
         #     file.write(s)
@@ -148,11 +169,13 @@ class SynAnalyze(object):
             if next_token_type == 'identifier' or next_token_type == 'number':
                 tokens.append((line.split(' ')[0], next_token_type))
             else:
-                next_token = line.split(' ')[2]
+                next_token = line.split(' ')[1]
                 tokens.append((line.split(' ')[0], next_token))
+        #print(tokens)
         tokens.append((str(0), '#'))
         token_table.close()
         isSuccess, tree_layer, tree_line,message = self.runOnLRTable(tokens,SynAnalyzeProcess_path)#分析
+
         if isSuccess:#成功
             self.get_tree(tree_layer, tree_line)
             return True,message
@@ -163,7 +186,7 @@ def Analysis(ACTION_GOTO,grammar):
     SynGrammar_path = './SynGra.txt'  # 语法规则文件相对路径
     TokenTable_path = './lexical_analysis.txt'  # 存储TOKEN表的相对路径
     LRTable_path = './ActionGoto.csv'  # 存储LR表的相对路径
-
+    #print(ACTION_GOTO)
     SA = SynAnalyze()
     SA.LRTable=ACTION_GOTO
     SA.productions=grammar
