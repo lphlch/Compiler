@@ -159,9 +159,9 @@ def GET_ACTION_GOTO(_first,_grammar,keywordList):
     lrFile=open("ACTION_GOTO.txt",'w')
     ts=sorted(list(Terminal_symbol-{Start_symbol}))
     nts=sorted(list(nonTerminal_symbol-{Start_symbol}))
-    print("   ", '  '.join(map(lambda x: (x + "  ")[:3], ts)), "", '  '.join(map(lambda x: (x + "  ")[:3], nts)),file=lrFile)
+    print("   ", '  '.join(map(lambda x: (x + "  ")[:8], ts)), "", '  '.join(map(lambda x: (x + "  ")[:8], nts)),file=lrFile)
     for i in range(len(CLOSURESET)):
-        print("%-3d" % i, end=" ",file=lrFile)
+        print("%-8d" % i, end=" ",file=lrFile)
         for k in CLOSURESET[i]:
             item=accept_grammar_point[k]
             if item["point"]==len(item["r"]):
@@ -178,16 +178,16 @@ def GET_ACTION_GOTO(_first,_grammar,keywordList):
         for j in ts:
             try:
                 if ACTION_GOTO[i][j]>0:
-                    print("s%-3d" % ACTION_GOTO[i][j], end=" ", file=lrFile)
+                    print("s%-8d" % ACTION_GOTO[i][j], end=" ", file=lrFile)
                 if ACTION_GOTO[i][j]<0:
-                    print("r%-3d" % -ACTION_GOTO[i][j], end=" ", file=lrFile)
+                    print("r%-8d" % -ACTION_GOTO[i][j], end=" ", file=lrFile)
                 if ACTION_GOTO[i][j]==0:
                     print("acc " , end=" ", file=lrFile)
             except:
                 print("    ", end=" ", file=lrFile)
         for j in nts:
             try:
-                print("%-4d" % ACTION_GOTO[i][j], end=" ", file=lrFile)
+                print("%-9d" % ACTION_GOTO[i][j], end=" ", file=lrFile)
             except:
                 print("    ", end=" ", file=lrFile)
         print(file=lrFile)
