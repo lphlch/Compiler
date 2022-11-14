@@ -4,12 +4,12 @@ import os
 def getSentenceInput(method=0):
     if method == 0:
         string = input("Please input a sentence: ")
-        file = open("sentence.txt", "w")
+        file = open("./input/sentence.txt", "w")
         file.write(string + "\n")
         file.close()
         return 0
     else:
-        file = open("sentence.txt", "r")
+        file = open("./input/sentence.txt", "r")
         if not file:
             print("Error: cannot open file sentence.txt")
             return -1
@@ -20,7 +20,7 @@ def getSentenceInput(method=0):
 def callLex(inputString):
     exeFile = "Lex.exe"
     os.popen(exeFile + " " + inputString).read()
-    lexResultFile = open("lexical_analysis.txt", "r")
+    lexResultFile = open("./output/lexical_analysis.txt", "r")
     lexResultList = lexResultFile.read()
     return lexResultList
 
@@ -41,6 +41,6 @@ def processLexResult(lexResultList):
     
     
 getSentenceInput(1)
-lexResultList=(callLex("sentence.txt"))
+lexResultList=(callLex("./input/sentence.txt"))
 # print(lexResultList)
 print(processLexResult(lexResultList))

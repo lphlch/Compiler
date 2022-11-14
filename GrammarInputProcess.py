@@ -35,7 +35,7 @@ def getInput(method=0):
             keywordsList.append(s)
 
     if method == 1:
-        file = open("grammar.txt", "r")
+        file = open("./input/grammar.txt", "r")
         mode = 0
         for line in file:
             line = line.replace("\n", "")  # delete the newline character

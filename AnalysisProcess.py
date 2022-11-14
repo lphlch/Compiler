@@ -131,9 +131,9 @@ class SynAnalyze(object):
                 0, pre_data[i[0]][i[1]])
         data = pre_data[max(pre_data.keys())]
         #print(json.dumps(data))
-        file = open('SynTree.txt', 'w')
+        file = open('./output/SynTree.txt', 'w')
         file.write(json.dumps(data))
-        c = (#画树
+        c = (
             Tree().add(
                 "",
                 data,
@@ -149,7 +149,7 @@ class SynAnalyze(object):
                     horizontal_align="right",
                     vertical_align="middle",
                     # rotate='15',
-                    font_size=15)).set_global_opts(title_opts=opts.TitleOpts(title="语法树")).render("语法树.html"))
+                    font_size=15)).set_global_opts(title_opts=opts.TitleOpts(title="语法树")).render("./output/语法树.html"))
         # for i in range(len(data)):
         #     s = str(data[i]).replace('{', '').replace('}', '').replace("'", '').replace(':', ',') + '\n'
         #     file.write(s)
@@ -183,11 +183,12 @@ class SynAnalyze(object):
             return False,message
 
 def Analysis(ACTION_GOTO,grammar):
-    SynGrammar_path = './SynGra.txt'  # 语法规则文件相对路径
-    TokenTable_path = './lexical_analysis.txt'  # 存储TOKEN表的相对路径
-    LRTable_path = './ActionGoto.csv'  # 存储LR表的相对路径
+    #SynGrammar_path = './SynGra.txt'  # 语法规则文件相对路径
+    TokenTable_path = './output/lexical_analysis.txt'  # 存储TOKEN表的相对路径
+    #LRTable_path = './ActionGoto.csv'  # 存储LR表的相对路径
     #print(ACTION_GOTO)
     SA = SynAnalyze()
     SA.LRTable=ACTION_GOTO
     SA.productions=grammar
-    SA.analyze(TokenTable_path,SynAnalyzeProcess_path="./StackInfo.txt")
+    SA.analyze(TokenTable_path,SynAnalyzeProcess_path="./output/StackInfo.txt")
+
