@@ -128,7 +128,7 @@ def GET_ACTION_GOTO(_first,_grammar,keywordList):
             accept_grammar_point.append({"l":item["l"],"r":item["r"],"point":item["point"],"finish":item["finish"],"forward":ter_sym})
 
     #将所有展望符项目输出，方便debug
-    acceptFile=open("accept.txt",'w')
+    acceptFile=open("./intermediate/accept.txt",'w')
     for i,item in zip(range(len(accept_grammar_point)),accept_grammar_point):
         print(i,"   ",item,file=acceptFile)
     #print("accept_grammar_point",accept_grammar_point)
@@ -149,14 +149,14 @@ def GET_ACTION_GOTO(_first,_grammar,keywordList):
         GET_GOTO(num)
         num=num+1
     #输出构建的项目族群
-    CLOSURESETFile=open("CLOSURESET.txt",'w')
+    CLOSURESETFile=open("./intermediate/CLOSURESET.txt",'w')
     for i in range(len(CLOSURESET)):
         print(i,file=CLOSURESETFile)
         for k in CLOSURESET[i]:
             print(accept_grammar_point[k],file=CLOSURESETFile)
 
 
-    lrFile=open("ACTION_GOTO.txt",'w')
+    lrFile=open("./intermediate/ACTION_GOTO.txt",'w')
     ts=sorted(list(Terminal_symbol-{Start_symbol}))
     nts=sorted(list(nonTerminal_symbol-{Start_symbol}))
     print("   ", '  '.join(map(lambda x: (x + "  ")[:8], ts)), "", '  '.join(map(lambda x: (x + "  ")[:8], nts)),file=lrFile)
