@@ -105,6 +105,142 @@ FORMAL_SENTENSE=[
 
 输出 **分析过程** 和 **语法树**
 
+
+
+## Intermediate Code
+
+```python
+codeTable=[
+    [op,arg1,arg2,result]
+]
+
+nameTable={
+    name:[
+        	kind, #常量(constant)、变量(variable)、类型(type)、过程(procedure)
+          	type, # int float
+        	normal, #是否为变量形参名
+        	val# address value size
+    ]
+}
+
+```
+
+
+
+1. 产生式完善+语法分析（F）
+2. 词法分析输出的Value要加上去（E）
+3. 语法分析归约的时候根据归约的产生式调用对应的静态检查、翻译函数（E）
+4. 静态检查：输出error，warning（D）
+   1. 类型不匹配
+   2. 未定义的变量、函数
+   3. 语法错误（语法分析时检测）
+
+5. 5类翻译
+   1. 说明（C）
+
+   2. 赋值（C）
+
+   3. 布尔（A）
+
+   4. 控制（B）
+
+   5. 调用（C）
+
+ddl：12/18，A：12/15
+
+
+
+```c
+program: declaration_list
+
+declaration_list: declaration_list declaration
+                  | declaration
+
+declaration: var_declaration
+            | fun_declaration
+
+var_declaration: type_specifier ID ;
+                // | type_specifier ID [ NUM ] ;
+
+type_specifier: INT
+               | VOID
+
+fun_declaration: type_specifier ID ( params ) compound_stmt
+
+params: param_list
+        | VOID
+
+param_list: param_list , param
+           | param
+
+param: type_specifier ID
+       //| type_specifier ID [ ]
+
+//compound_stmt: { local_declarations statement_list }
+
+local_declarations: local_declarations var_declaration
+                   | empty
+
+statement_list: statement_list statement
+               | empty
+
+statement: expression_stmt
+          | compound_stmt
+          | selection_stmt
+          | iteration_stmt
+          | return_stmt
+
+expression_stmt: expression ;
+                | ;
+
+selection_stmt: IF ( expression ) statement
+               | IF ( expression ) statement ELSE statement
+
+iteration_stmt: WHILE ( expression ) statement
+
+return_stmt: RETURN ;
+             | RETURN expression ;
+
+expression: var = expression
+           | simple_expression
+
+var: ID
+    //| ID [ expression ]
+
+simple_expression: additive_expression
+                  | simple_expression RELOP additive_expression
+
+additive_expression: term
+                    | additive_expression ADDOP term
+
+term: factor
+      | term MULOP factor
+
+factor: ( expression )
+       | var
+       | call
+       | NUM
+
+call: ID ( args )
+
+args: arg_list
+      | empty
+
+arg_list: arg_list , expression
+          | expression
+
+empty:
+
+```
+
+
+
+
+
+
+
+
+
 ## Test data
 
 ```python
