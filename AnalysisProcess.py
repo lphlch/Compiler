@@ -194,7 +194,7 @@ class SynAnalyze(object):
                 
             tokens.append((lineNum,type,value))
 
-        tokens.append((str(0), '#'))
+        tokens.append((str(0), '#','FINISH'))
         
         print('tokens',tokens)
         
