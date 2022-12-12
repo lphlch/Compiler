@@ -109,5 +109,10 @@ def getFirstSet(grammarList, keywordsList):
     print("firstSet:", first)
     return first
 
-
+if __name__ == "__main__":
+    inputList, keywordsList = getInput(1)
+    grammarList = transformInput(inputList)
+    firstSet = getFirstSet(grammarList, keywordsList)
+    print("grammarList:", grammarList)
+    print("keywordsList:", keywordsList)
 

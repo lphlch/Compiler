@@ -34,3 +34,4 @@ lex.yy.c
 *.pyc
 test.py
 testrun.bat
+*.json

@@ -171,8 +171,11 @@ class SynAnalyze(object):
             else:
                 next_token = line.split(' ')[1]
                 tokens.append((line.split(' ')[0], next_token))
-        #print(tokens)
+
         tokens.append((str(0), '#'))
+        
+        print(tokens)
+        
         token_table.close()
         isSuccess, tree_layer, tree_line,message = self.runOnLRTable(tokens,SynAnalyzeProcess_path)#分析
 
