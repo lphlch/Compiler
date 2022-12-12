@@ -33,6 +33,10 @@ DOUBLE
 (
 )
 ;
+=
+,
+{
+}
 IF
 ELSE
 WHILE
