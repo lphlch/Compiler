@@ -1,3 +1,14 @@
+statement_list->statement_list statement | empty
+statement->ID = NUM ;
+empty->E
+##
+ID
+=
+NUM
+E
+;
+##
+
 program->declaration_list #
 declaration_list->declaration_list declaration | declaration
 declaration->var_declaration | fun_declaration
@@ -48,6 +59,12 @@ NUM
 E
 #
 ##
+
+
+
+
+
+
 
 E->T G
 G->+ T G | - T G | ε
