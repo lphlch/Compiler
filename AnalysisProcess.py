@@ -27,7 +27,7 @@ class SynAnalyze(object):
         while True:
             step += 1
             top_status = status_stack[-1]
-            now_line_num, now_token = tokens[-1]
+            now_line_num, now_token,_ = tokens[-1]
             if step != 1:
                 fp.write('\ntoken:%s'%now_token)
             else:
@@ -39,8 +39,12 @@ class SynAnalyze(object):
             fp.write('\n')
 
             #if now_token in self.LRTable[top_status].keys():  # 进行状态转移
-            if now_token in self.LRTable[top_status]:  # 进行状态转移
-                action = self.LRTable[top_status][now_token]
+            if now_token in self.LRTable[top_status] or 'E' in self.LRTable[top_status]:  # 进行状态转移
+                if now_token not in self.LRTable[top_status]:
+                    action = self.LRTable[top_status]['E']
+                else:
+                    action = self.LRTable[top_status][now_token]
+                    
                 #print(action)
                 #if action[0] == 'acc':
                 if action==0:#成功
@@ -102,6 +106,7 @@ class SynAnalyze(object):
                 #print('line %s' % now_line_num)
                 #print('found: %s' % now_token)Syntax Error!
                 #print('expecting:')
+            
                 message+='\nline %s\n' % now_line_num+'found: %s\n' % now_token+'expecting:\n'
                 #for exp in self.LRTable[top_status].keys():
                 for exp in self.LRTable[top_status]:
@@ -165,16 +170,33 @@ class SynAnalyze(object):
         tokens = list()
         for line in token_table:
             line = line[:-1]
-            next_token_type = line.split(' ')[1]
-            if next_token_type == 'identifier' or next_token_type == 'number':
-                tokens.append((line.split(' ')[0], next_token_type))
-            else:
-                next_token = line.split(' ')[1]
-                tokens.append((line.split(' ')[0], next_token))
+            
+            # next_token_type = line.split(' ')[1]
+            # if next_token_type == 'identifier' or next_token_type == 'number':
+            #     tokens.append((line.split(' ')[0], next_token_type))
+            # else:
+            #     next_token = line.split(' ')[1]
+            #     tokens.append((line.split(' ')[0], next_token))
+            
+            # 将词法分析结果进行处理
+            # tokens.append((line.split(' ')[0], line.split(' ')[1],line.split(' ')[2]))
+            lineNum,type,value=line.split(' ')
+            if type in ("int", "void", "if", "else", "while", "return", "for", "do", "break", "continue", "float", "double"):
+                type=type.upper()   # 转为大写以符合文法规则
+                if type == 'FLOAT':
+                    type = 'DOUBLE' # 将float转为double
+            if type in (">=", "<=","<",">","==","!="):
+                type='RELOP'
+            if type in ("+","-"):
+                type='ADDOP'
+            if type in ("*","/"):
+                type='MULOP'
+                
+            tokens.append((lineNum,type,value))
 
         tokens.append((str(0), '#'))
         
-        print(tokens)
+        print('tokens',tokens)
         
         token_table.close()
         isSuccess, tree_layer, tree_line,message = self.runOnLRTable(tokens,SynAnalyzeProcess_path)#分析
