@@ -13,22 +13,22 @@ def getInput(method=0):
     inputList = []
     keywordsList = []
     if method == 0:
-        print("Enter the grammar in the form of productions, enter a # to stop")
+        print("Enter the grammar in the form of productions, enter two # to stop")
         while True:
             s = input()
-            if s == "#":
+            if s == "##":
                 break
             if s.replace(" ", "") == "":
                 continue
             inputList.append(s)
 
-        print("Enter a keyword each line, enter a # to stop")
+        print("Enter a keyword each line, enter two # to stop")
         while True:
             s = input()
             if len(s.split()) != 1:
                 print("Error: keyword should be a single word, no space allowed")
                 continue
-            if s == "#":
+            if s == "##":
                 break
             if s.replace(" ", "") == "":
                 continue
@@ -39,7 +39,7 @@ def getInput(method=0):
         mode = 0
         for line in file:
             line = line.replace("\n", "")  # delete the newline character
-            if line == "#":
+            if line == "##":
                 mode += 1
                 continue
             if line.replace(" ", "") == "":
@@ -52,8 +52,8 @@ def getInput(method=0):
                 break
     
     
-    print("inputList:", inputList)
-    print("keywordsList:", keywordsList)
+    # print("inputList:", inputList)
+    # print("keywordsList:", keywordsList)
     return inputList, keywordsList
 
 
@@ -106,7 +106,7 @@ def getFirstSet(grammarList, keywordsList):
         if lastFirst == first:
             break
 
-    print("firstSet:", first)
+    # print("firstSet:", first)
     return first
 
 if __name__ == "__main__":

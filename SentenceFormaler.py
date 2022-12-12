@@ -34,7 +34,7 @@ def processLexResult(lexResultList):
         resultList.append(item)
         # print(item.split('\t')[1])
         
-    print('formalList: ', resultList)
+    # print('formalList: ', resultList)
     return resultList
     
     

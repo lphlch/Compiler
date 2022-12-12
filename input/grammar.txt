@@ -1,4 +1,4 @@
-program->declaration_list
+program->declaration_list #
 declaration_list->declaration_list declaration | declaration
 declaration->var_declaration | fun_declaration
 var_declaration->type_specifier ID | type_specifier ID = NUM ;
@@ -12,7 +12,7 @@ local_declarations->var_declaration local_declarations | empty
 statement_list->statement statement_list | empty
 statement->expression_stmt | compound_stmt | selection_stmt | iteration_stmt | return_stmt
 expression_stmt->expression ; | ;
-selection_stmt->IF ( expression ) statement | IF ( expression ) statement ELSE statement
+selection_stmt->IF ( expression ) { local_declarations statement_list } | IF ( expression ) { local_declarations statement_list } ELSE { local_declarations statement_list }
 iteration_stmt->WHILE ( expression ) statement
 return_stmt->RETURN ; | RETURN expression ;
 expression->var = expression | simple_expression
@@ -25,7 +25,7 @@ call->ID ( args )
 args->arg_list | empty
 arg_list->arg_list , expression | expression
 empty->E
-#
+##
 ID
 INT
 VOID
@@ -47,18 +47,20 @@ MULOP
 NUM
 E
 #
+##
 
-D'->D
-D->D_S
-D_S->D_H D_B
-D_H->int
-D_B->D_WV | D_WOV
-D_WOV-> <ID>
-D_WV-> <ID> = VALUE
-VALUE-> <INT>
-#
-int
-<ID>
-=
-<INT>
-#
+E->T G
+G->+ T G | - T G | ε
+T->F S
+S->* F S | / F S | ε
+F->( E ) | i
+##
++
+-
+*
+/
+(
+)
+i
+ε
+##
