@@ -1,0 +1,13 @@
+    #    <ID>    <INT>    =    int    D    D_B    D_H    D_S    D_WOV    D_WV    VALUE  
+0                            s2        1              3         4                        
+1        acc                                                         
+2             r73                                                         
+3             s7                            6                   5         8              
+4        r100                                                             
+5        r35                                                              
+6        r50                                                              
+7        r15                 s9                                                
+8        r25                                                              
+9                  s11                                               10        
+10       r90                                                              
+11       r5                                                               

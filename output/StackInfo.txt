@@ -1,0 +1,67 @@
+token:int
+symbol stack:
+[('#', -1, 1)]
+status stack:
+[0]
+
+token:<ID>
+symbol stack:
+[('#', -1, 1), ('int', 0, 0)]
+status stack:
+[0, 2]
+
+token:<ID>
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0)]
+status stack:
+[0, 3]
+
+token:=
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('<ID>', 0, 1)]
+status stack:
+[0, 3, 7]
+
+token:<INT>
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('<ID>', 0, 1), ('=', 0, 2)]
+status stack:
+[0, 3, 7, 9]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('<ID>', 0, 1), ('=', 0, 2), ('<INT>', 0, 3)]
+status stack:
+[0, 3, 7, 9, 11]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('<ID>', 0, 1), ('=', 0, 2), ('VALUE', 1, 1)]
+status stack:
+[0, 3, 7, 9, 10]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('D_WV', 2, 0)]
+status stack:
+[0, 3, 8]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D_H', 1, 0), ('D_B', 3, 0)]
+status stack:
+[0, 3, 6]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D_S', 4, 0)]
+status stack:
+[0, 4]
+
+token:#
+symbol stack:
+[('#', -1, 1), ('D', 5, 0)]
+status stack:
+[0, 1]
+
+Syntax Analyze Successfully!

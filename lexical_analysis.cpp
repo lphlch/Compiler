@@ -48,7 +48,7 @@ public:
 
 //标识符的定义
 //关键字（使用set的原因是为了确保唯一性）
-const set<string> Keyword = { "int" ,"void" ,"if" ,"else" ,"while" ,"return" ,"for" ,"do" ,"break" ,"continue" };
+const set<string> Keyword = { "int" ,"void" ,"if" ,"else" ,"while" ,"return" ,"for" ,"do" ,"break" ,"continue","float","double" };//将float和double都输出为double 
 //分隔符
 const set<string> Separator = { "," , ";" , "(" , ")" , "{" , "}" ,"[" ,"]" };
 //运算符
@@ -58,6 +58,8 @@ const set<string> Operator_2 = { "==",  ">=",  "<=",  "!=" ,"->" ,"++" ,"--" ,"+
 const string Identifier = "<ID>";
 
 const string ConstInt = "<INT>";
+
+const string ConstFloat_or_double = "<DOUBLE>";
 
 //将所有符号都插入进一个集合中
 set<string> InsertTokens()
@@ -95,11 +97,11 @@ lexical_analysis::lexical_analysis(const string file_path)
 	string present_str;
 	//当前字符
 	char present_ch;
-
 	//开始进行识别
 	while (file_in.peek() != EOF) {
 		present_ch = char(file_in.get());
 		present_col++;
+		//cout<<present_ch<<endl; 
 		//如果为空格
 		if (isspace(present_ch)) {
 			if (present_ch == '\n') {
@@ -136,6 +138,24 @@ lexical_analysis::lexical_analysis(const string file_path)
 			while (isdigit(present_ch = char(file_in.get()))) {
 				present_str += present_ch;
 				present_col++;
+			}	
+			if(present_ch=='.'){//可能是小数 
+			    if(isdigit(present_ch=char(file_in.get()))){//下一个是数字就一定是小数了 
+			        present_str+='.';
+			        present_str+=present_ch;
+			        present_col++; 
+			    	while (isdigit(present_ch = char(file_in.get()))) {
+				        present_str += present_ch;
+				        present_col++;
+			        }
+			        //倒回去一个字符
+			        file_in.seekg(-1, ios::cur);
+			        //插入token_stream
+			        token_stream.push_back({ConstFloat_or_double ,present_str,present_row,present_col - int(present_str.length()) + 1 });
+			        continue;
+			    }
+			    //倒回去一个字符
+			    file_in.seekg(-1, ios::cur);
 			}
 			//倒回去一个字符
 			file_in.seekg(-1, ios::cur);

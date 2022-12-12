@@ -1,0 +1,14 @@
+D'->D
+D->D_S
+D_S->D_H D_B
+D_H->int
+D_B->D_WV | D_WOV
+D_WOV-> <ID>
+D_WV-> <ID> = VALUE
+VALUE-> <INT>
+#
+int
+<ID>
+=
+<INT>
+#

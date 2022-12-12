@@ -1,0 +1,105 @@
+0     {'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': '#'}
+1     {'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+2     {'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': 'int'}
+3     {'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+4     {'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': '='}
+5     {'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': '#'}
+6     {'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+7     {'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': 'int'}
+8     {'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+9     {'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': '='}
+10     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': '#'}
+11     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+12     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': 'int'}
+13     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+14     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': '='}
+15     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': '#'}
+16     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+17     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': 'int'}
+18     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+19     {'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': '='}
+20     {'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': '#'}
+21     {'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+22     {'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': 'int'}
+23     {'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+24     {'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': '='}
+25     {'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': '#'}
+26     {'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+27     {'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': 'int'}
+28     {'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+29     {'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': '='}
+30     {'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': '#'}
+31     {'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+32     {'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': 'int'}
+33     {'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+34     {'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': '='}
+35     {'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': '#'}
+36     {'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+37     {'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': 'int'}
+38     {'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+39     {'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': '='}
+40     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': '#'}
+41     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+42     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': 'int'}
+43     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+44     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': '='}
+45     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': '#'}
+46     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': '<INT>'}
+47     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': 'int'}
+48     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': '<ID>'}
+49     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': '='}
+50     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': '#'}
+51     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': '<INT>'}
+52     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': 'int'}
+53     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': '<ID>'}
+54     {'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': '='}
+55     {'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': '#'}
+56     {'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+57     {'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': 'int'}
+58     {'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+59     {'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': '='}
+60     {'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': '#'}
+61     {'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+62     {'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': 'int'}
+63     {'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+64     {'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': '='}
+65     {'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': '#'}
+66     {'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+67     {'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': 'int'}
+68     {'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+69     {'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': '='}
+70     {'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': '#'}
+71     {'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+72     {'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': 'int'}
+73     {'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+74     {'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': '='}
+75     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': '#'}
+76     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+77     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': 'int'}
+78     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+79     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': '='}
+80     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': '#'}
+81     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': '<INT>'}
+82     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': 'int'}
+83     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': '<ID>'}
+84     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': '='}
+85     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': '#'}
+86     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': '<INT>'}
+87     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': 'int'}
+88     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': '<ID>'}
+89     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': '='}
+90     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': '#'}
+91     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': '<INT>'}
+92     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': 'int'}
+93     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': '<ID>'}
+94     {'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': '='}
+95     {'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': '#'}
+96     {'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': '<INT>'}
+97     {'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': 'int'}
+98     {'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+99     {'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': '='}
+100     {'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': '#'}
+101     {'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': '<INT>'}
+102     {'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': 'int'}
+103     {'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+104     {'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': '='}

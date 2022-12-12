@@ -1,0 +1,33 @@
+0
+{'l': 'D_H', 'r': ['int'], 'point': 0, 'finish': False, 'forward': '<ID>'}
+{'l': "D'", 'r': ['D'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D', 'r': ['D_S'], 'point': 0, 'finish': False, 'forward': '#'}
+1
+{'l': "D'", 'r': ['D'], 'point': 1, 'finish': True, 'forward': '#'}
+2
+{'l': 'D_H', 'r': ['int'], 'point': 1, 'finish': True, 'forward': '<ID>'}
+3
+{'l': 'D_B', 'r': ['D_WV'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D_WOV', 'r': ['<ID>'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 1, 'finish': False, 'forward': '#'}
+{'l': 'D_B', 'r': ['D_WOV'], 'point': 0, 'finish': False, 'forward': '#'}
+4
+{'l': 'D', 'r': ['D_S'], 'point': 1, 'finish': True, 'forward': '#'}
+5
+{'l': 'D_B', 'r': ['D_WOV'], 'point': 1, 'finish': True, 'forward': '#'}
+6
+{'l': 'D_S', 'r': ['D_H', 'D_B'], 'point': 2, 'finish': True, 'forward': '#'}
+7
+{'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 1, 'finish': False, 'forward': '#'}
+{'l': 'D_WOV', 'r': ['<ID>'], 'point': 1, 'finish': True, 'forward': '#'}
+8
+{'l': 'D_B', 'r': ['D_WV'], 'point': 1, 'finish': True, 'forward': '#'}
+9
+{'l': 'VALUE', 'r': ['<INT>'], 'point': 0, 'finish': False, 'forward': '#'}
+{'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 2, 'finish': False, 'forward': '#'}
+10
+{'l': 'D_WV', 'r': ['<ID>', '=', 'VALUE'], 'point': 3, 'finish': True, 'forward': '#'}
+11
+{'l': 'VALUE', 'r': ['<INT>'], 'point': 1, 'finish': True, 'forward': '#'}
