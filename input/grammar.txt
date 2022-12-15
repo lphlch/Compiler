@@ -1,4 +1,107 @@
-program->declaration_list #
+sstart->start
+start->external_declaration start | $
+external_declaration->declaration | function_definition
+
+declaration->type_specifier declaration_parameter declaration_parameter_suffix ;
+declaration_parameter->identifier M_declaration_parameter declaration_parameter_assign
+declaration_parameter_assign->= expression | $
+declaration_parameter_suffix->, M_declaration_parameter_suffix declaration_parameter declaration_parameter_suffix | $
+M_declaration_parameter->$
+M_declaration_parameter_suffix->$
+
+primary_expression->identifier | number | ( expression )
+
+expression->function_expression | constant_expression
+
+function_expression->identifier ( expression_list )
+
+expression_list->expression expression_list_suffix | $
+expression_list_suffix->, expression expression_list_suffix | $
+
+assignment_operator->= | += | -= | *= | /= | %= | ^= | &=
+
+type_specifier->int | float | void
+
+constant_expression->or_bool_expression
+or_bool_expression->or_bool_expression or_operator and_bool_expression | and_bool_expression
+and_bool_expression->and_bool_expression and_operator single_bool_expression | single_bool_expression
+single_bool_expression->single_bool_expression bool_operator first_expression | first_expression
+
+first_expression->first_expression first_operator second_expression | second_expression
+second_expression->second_expression second_operator primary_expression | third_expression
+third_expression->! primary_expression | primary_expression
+
+or_operator-> or
+and_operator->&&
+bool_operator->< | > | != | <= | >= | ==
+
+first_operator->+ | -
+second_operator->* | /
+
+function_definition->type_specifier identifier M_function_definition ( function_parameter_list ) compound_statement
+M_function_definition->$
+
+function_parameter_list->function_parameter function_parameter_list_suffix | $ | void
+function_parameter_list_suffix->, function_parameter function_parameter_list_suffix | $ | void
+function_parameter->type_specifier identifier
+
+compound_statement->{ statement_list }
+
+statement_list->statement_list statement | $
+statement->expression_statement | jump_statement | selection_statement | iteration_statement | compound_statement | declaration
+
+expression_statement->assignment_expression_list ;
+assignment_expression_list->assignment_expression assignment_expression_list_suffix | $
+assignment_expression->identifier assignment_operator expression
+assignment_expression_list_suffix->, assignment_expression assignment_expression_list_suffix | $
+
+jump_statement->return expression ; | return ;
+
+selection_statement->if ( constant_expression ) M_selection_statement statement else N_selection_statement statement | if ( constant_expression ) M_selection_statement statement
+iteration_statement->while N_iteration_statement ( constant_expression ) M_selection_statement statement
+M_selection_statement->$
+N_selection_statement->$
+N_iteration_statement->$
+#
+number
+identifier
+if
+else
+(
+)
+{
+}
+;
+,
+=
+==
++=
+-=
+*=
+/=
+%=
+^=
+&=
+!
+int
+float
+void
+or
+&&
+<
+>
+!=
+==
+<=
+>=
++
+-
+*
+/
+return
+while
+#
+program->declaration_list
 declaration_list->declaration_list declaration | declaration
 declaration->var_declaration | fun_declaration
 var_declaration->type_specifier ID | type_specifier ID = NUM ;
@@ -12,7 +115,7 @@ local_declarations->var_declaration local_declarations | empty
 statement_list->statement statement_list | empty
 statement->expression_stmt | compound_stmt | selection_stmt | iteration_stmt | return_stmt
 expression_stmt->expression ; | ;
-selection_stmt->IF ( expression ) { local_declarations statement_list } | IF ( expression ) { local_declarations statement_list } ELSE { local_declarations statement_list }
+selection_stmt->IF ( expression ) statement | IF ( expression ) statement ELSE statement
 iteration_stmt->WHILE ( expression ) statement
 return_stmt->RETURN ; | RETURN expression ;
 expression->var = expression | simple_expression
@@ -24,8 +127,7 @@ factor->( expression ) | var | call | NUM
 call->ID ( args )
 args->arg_list | empty
 arg_list->arg_list , expression | expression
-empty->E
-##
+#
 ID
 INT
 VOID
@@ -45,22 +147,18 @@ RELOP
 ADDOP
 MULOP
 NUM
-E
 #
-##
-
-E->T G
-G->+ T G | - T G | ε
-T->F S
-S->* F S | / F S | ε
-F->( E ) | i
-##
-+
--
-*
-/
-(
-)
-i
-ε
-##
+D'->D
+D->D_S
+D_S->D_H D_B
+D_H->int
+D_B->D_WV | D_WOV
+D_WOV-> <ID>
+D_WV-> <ID> = VALUE
+VALUE-> <INT>
+#
+int
+<ID>
+=
+<INT>
+#
