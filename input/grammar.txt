@@ -62,7 +62,7 @@ iteration_statement->while N_iteration_statement ( constant_expression ) M_selec
 M_selection_statement->$
 N_selection_statement->$
 N_iteration_statement->$
-#
+##
 number
 identifier
 if
@@ -100,7 +100,11 @@ or
 /
 return
 while
-#
+##
+
+
+
+
 program->declaration_list
 declaration_list->declaration_list declaration | declaration
 declaration->var_declaration | fun_declaration

@@ -24,29 +24,38 @@ class SynAnalyze(object):
         step = 0
         fp=open(SynAnalyzeProcess_path,'w')#分析过程存在这里
         message=''#报错信息/成功信息
+        
         while True:
             step += 1
             top_status = status_stack[-1]
             now_line_num, now_token,_ = tokens[-1]
+            
             if step != 1:
                 fp.write('\ntoken:%s'%now_token)
             else:
                 fp.write('token:%s'%now_token)
+                
             fp.write('\nsymbol stack:\n')
             fp.write(str(symbol_stack))
             fp.write('\nstatus stack:\n')
             fp.write(str(status_stack))
             fp.write('\n')
 
-            #if now_token in self.LRTable[top_status].keys():  # 进行状态转移
-            if now_token in self.LRTable[top_status] or 'E' in self.LRTable[top_status]:  # 进行状态转移
+            if now_token in self.LRTable[top_status].keys():  # 进行状态转移
+            # if now_token in self.LRTable[top_status] or 'E' in self.LRTable[top_status]:  # 进行状态转移
+                
                 if now_token not in self.LRTable[top_status]:
-                    action = self.LRTable[top_status]['E']
+                    action = self.LRTable[top_status]['$']
                 else:
                     action = self.LRTable[top_status][now_token]
                     
                 #print(action)
                 #if action[0] == 'acc':
+                print('action:',action)
+                print('now_token:',now_token)
+                print('status_stack:',status_stack)
+                print('top_status:',top_status)
+                
                 if action==0:#成功
                     isSuccess = True
                     break
@@ -56,11 +65,13 @@ class SynAnalyze(object):
                         tree_layer_num.append(0)
                     else:
                         tree_layer_num[0] += 1
+                        
                     #status_stack.append(action[1])
                     status_stack.append(action)
                     symbol_stack.append((now_token, 0, tree_layer_num[0]))
                     tree_layer.append((now_token, 0, tree_layer_num[0]))
                     tokens = tokens[:-1]
+                    
                 #elif action[0] == 'r':
                 elif action<0:#规约
                     #production = self.productions[action[1]]
@@ -69,31 +80,46 @@ class SynAnalyze(object):
                     #left = list(production.keys())[0]
                     left=production["l"]#产生式左部分
                     next_line = 0
-                    #if production[left] != ['$']:  # 不需修改两个栈
-                    if production["r"] != ['ε']:#不为空要做改变，否则不改变
+                    # if production[left] != ['$']:  # 不需修改两个栈
+                    # if left != '$':  # 不需修改两个栈
+                    
+                    
+                    if production["r"] != ['$']:#不为空要做改变，否则不改变
                         right_length = len(production["r"])
                         status_stack = status_stack[:-right_length]
                         #symbol_stack = symbol_stack[:-right_length]
+                        
                         for i in range(len(symbol_stack) - 1, len(symbol_stack) - right_length - 1, -1):
                             next_line = max(next_line, symbol_stack[i][1])
                             tree_line.append(
                                 [symbol_stack[i][1], symbol_stack[i][2], 0, 0])
                             symbol_stack.pop(i)
+                            
                         next_line += 1
+                        print('r! status_stack:',status_stack)
+                        go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
                     else:
                         next_line = 1
                         right_length = 1
+                        
                         if len(tree_layer_num) == 0:
                             tree_layer_num.append(0)
                         else:
                             tree_layer_num[0] += 1
+                            
                         tree_layer.append(('$', 0, tree_layer_num[0]))
                         tree_line.append([0, tree_layer_num[0], 0, 0])
-                    go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
+                        status_stack.pop()
+                        print('r==$,pop status_stack:',status_stack)
+                        go = status_stack[-1]
+                    
+                    print('go:',go)
+                    
                     if next_line == len(tree_layer_num):
                         tree_layer_num.append(0)
                     else:
                         tree_layer_num[next_line] += 1
+                        
                     for i in tree_line[-right_length:]:
                         i[2], i[3] = next_line, tree_layer_num[next_line]
                     #status_stack.append(go[1])
@@ -113,6 +139,7 @@ class SynAnalyze(object):
                     #print(exp)
                     message+=exp+'\n'
                 break
+            
         if isSuccess==True:
             message+= '\nSyntax Analyze Successfully!\n'
         else:
@@ -181,22 +208,22 @@ class SynAnalyze(object):
             # 将词法分析结果进行处理
             # tokens.append((line.split(' ')[0], line.split(' ')[1],line.split(' ')[2]))
             lineNum,type,value=line.split(' ')
-            if type in ("int", "void", "if", "else", "while", "return", "for", "do", "break", "continue", "float", "double"):
-                type=type.upper()   # 转为大写以符合文法规则
-                if type == 'FLOAT':
-                    type = 'DOUBLE' # 将float转为double
-            if type in (">=", "<=","<",">","==","!="):
-                type='RELOP'
-            if type in ("+","-"):
-                type='ADDOP'
-            if type in ("*","/"):
-                type='MULOP'
+            # if type in ("int", "void", "if", "else", "while", "return", "for", "do", "break", "continue", "float", "double"):
+                # type=type.upper()   # 转为大写以符合文法规则
+                # if type == 'FLOAT':
+                #     type = 'DOUBLE' # 将float转为double
+            # if type in (">=", "<=","<",">","==","!="):
+            #     type='RELOP'
+            # if type in ("+","-"):
+            #     type='ADDOP'
+            # if type in ("*","/"):
+            #     type='MULOP'
                 
             tokens.append((lineNum,type,value))
 
         tokens.append((str(0), '#','FINISH'))
         
-        print('tokens',tokens)
+        # print('tokens',tokens)
         
         token_table.close()
         isSuccess, tree_layer, tree_line,message = self.runOnLRTable(tokens,SynAnalyzeProcess_path)#分析

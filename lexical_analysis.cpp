@@ -55,10 +55,10 @@ const set<string> Separator = {",", ";", "(", ")", "{", "}", "[", "]"};
 const set<string> Operator_1 = {"+", "-", "*", "/", "=", ">", "<", "%", "!"};
 const set<string> Operator_2 = {"==", ">=", "<=", "!=", "->", "++", "--", "+=", "-=", "*=", "/=", "%=", "||", "&&"};
 
-const string Identifier = "ID";
+const string Identifier = "identifier";
 
-const string ConstInt = "NUM";
-const string ConstFloat_or_double = "NUM";
+const string ConstInt = "number";
+const string ConstFloat_or_double = "number";
 
 // 将所有符号都插入进一个集合中
 set<string> InsertTokens()
