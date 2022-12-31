@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 def getInput(method=0):
     """get input from user
     Args:
@@ -50,8 +51,7 @@ def getInput(method=0):
                 keywordsList.append(line)
             else:
                 break
-    
-    
+
     # print("inputList:", inputList)
     # print("keywordsList:", keywordsList)
     return inputList, keywordsList
@@ -109,10 +109,10 @@ def getFirstSet(grammarList, keywordsList):
     # print("firstSet:", first)
     return first
 
+
 if __name__ == "__main__":
     inputList, keywordsList = getInput(1)
     grammarList = transformInput(inputList)
     firstSet = getFirstSet(grammarList, keywordsList)
     print("grammarList:", grammarList)
     print("keywordsList:", keywordsList)
-

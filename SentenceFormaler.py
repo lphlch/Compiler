@@ -24,22 +24,21 @@ def callLex(inputString):
     lexResultList = lexResultFile.read()
     return lexResultList
 
+
 def processLexResult(lexResultList):
     # ignore first line and last line
     formalList = lexResultList.split("\n")[3:-1]
-    resultList=[]
+    resultList = []
     for item in formalList:
         item = item.split()[0]
         # print(item)
         resultList.append(item)
         # print(item.split('\t')[1])
-        
+
     # print('formalList: ', resultList)
     return resultList
-    
-    
-    
-    
+
+
 # getSentenceInput(1)
 # lexResultList=(callLex("./input/sentence.txt"))
 # # print(lexResultList)

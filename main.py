@@ -1,5 +1,5 @@
-from GrammarInputProcess import getInput,getFirstSet,transformInput
-from SentenceFormaler import getSentenceInput,callLex,processLexResult
+from GrammarInputProcess import getInput, getFirstSet, transformInput
+from SentenceFormaler import getSentenceInput, callLex, processLexResult
 from ActiongotoProcess import GET_ACTION_GOTO
 from AnalysisProcess import Analysis
 
@@ -11,7 +11,9 @@ firstSet = getFirstSet(grammar, keywordsList)  # get first set
 # print("grammar",grammar)
 # print("firstSet",firstSet)
 
-ACTION_GOTO,point_grammar=GET_ACTION_GOTO(grammar,keywordsList) #get action_goto table&point_grammar is used to analyze
+ACTION_GOTO, point_grammar = GET_ACTION_GOTO(
+    grammar, keywordsList
+)  # get action_goto table&point_grammar is used to analyze
 
 getSentenceInput(1)  # input sentence, save to file sentence.txt
 lexResultList = callLex("./input/input1.c")  # call Lex.exe to analyze input
@@ -20,4 +22,4 @@ print(lexResultList)  # print result of Lex.exe, for debug
 
 formalList = processLexResult(lexResultList)  # get formal sentence
 
-analysis=Analysis(ACTION_GOTO,point_grammar)
+analysis = Analysis(ACTION_GOTO, point_grammar)

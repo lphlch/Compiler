@@ -15,15 +15,15 @@ class SymbolTable:
 
     def print(self):
         print(self.table)
-        
-    def checkIfExist(self,name):
+
+    def checkIfExist(self, name):
         if name in self.table:
             return True
         return False
-    
-    def checkIfTypeCorrect(self,name,type):
+
+    def checkIfTypeCorrect(self, name, type):
         if name in self.table:
-            if self.table[name][1]==type:
+            if self.table[name][1] == type:
                 return True
         return False
 
@@ -78,7 +78,7 @@ class Translation:
 
         code = [op, arg1, arg2, name]
         self.symbolTable.set(name, "var", "int", False, None)
-        return code, name # return code and name of temp
+        return code, name  # return code and name of temp
 
 
 if __name__ == "__main__":
