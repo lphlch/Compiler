@@ -88,6 +88,7 @@ class SynAnalyze(object):
                     # if left != '$':  # 不需修改两个栈
 
                     print('curr production:', production['l'],'->' ,production["r"],'action:',action)
+                    go=-1
                     if production["r"] != []:  # 不为空要做改变，否则不改变
                         right_length = len(production["r"])
                         status_stack = status_stack[:-right_length]
@@ -121,7 +122,7 @@ class SynAnalyze(object):
                         tree_line.append([0, tree_layer_num[0], 0, 0])
                         status_stack.pop()
                         print("r==$,pop status_stack:", status_stack)
-                        go = status_stack[-1]
+                        # go = status_stack[-1]
 
                     print("go:", go)
 
@@ -133,14 +134,21 @@ class SynAnalyze(object):
                     for i in tree_line[-right_length:]:
                         i[2], i[3] = next_line, tree_layer_num[next_line]
                     # status_stack.append(go[1])
-                    status_stack.append(go)
-                    symbol_stack.append((left, next_line, tree_layer_num[next_line]))
-                    tree_layer.append((left, next_line, tree_layer_num[next_line]))
+                    if go != -1:
+                        status_stack.append(go)
+                        symbol_stack.append((left, next_line, tree_layer_num[next_line]))
+                        tree_layer.append((left, next_line, tree_layer_num[next_line]))
             else:  # 无法进行状态转移，报错
                 # print('line %s' % now_line_num)
                 # print('found: %s' % now_token)Syntax Error!
                 # print('expecting:')
-
+                print('!!!======!!!')
+                print("status_stack:", status_stack)
+                print("top_status:", top_status)
+                print("top_status_action:", self.LRTable[top_status])
+                print("now_token:", now_token)
+                print("action:", action)
+                
                 message += (
                     "\nline %s\n" % now_line_num
                     + "found: %s\n" % now_token
