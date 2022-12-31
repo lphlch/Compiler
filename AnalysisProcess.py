@@ -52,12 +52,13 @@ class SynAnalyze(object):
                 else:
                     action = self.LRTable[top_status][now_token]
 
-                # print(action)
                 # if action[0] == 'acc':
-                print("action:", action)
-                print("now_token:", now_token)
+                print('========================')
                 print("status_stack:", status_stack)
                 print("top_status:", top_status)
+                print("top_status_action:", self.LRTable[top_status])
+                print("now_token:", now_token)
+                print("action:", action)
 
                 if action == 0:  # 成功
                     isSuccess = True
@@ -86,9 +87,11 @@ class SynAnalyze(object):
                     # if production[left] != ['$']:  # 不需修改两个栈
                     # if left != '$':  # 不需修改两个栈
 
-                    if production["r"] != ["$"]:  # 不为空要做改变，否则不改变
+                    print('curr production:', production['l'],'->' ,production["r"],'action:',action)
+                    if production["r"] != []:  # 不为空要做改变，否则不改变
                         right_length = len(production["r"])
                         status_stack = status_stack[:-right_length]
+                        print('need r, right_length:', right_length,'production:',production['l'],'->' ,production["r"])
                         # symbol_stack = symbol_stack[:-right_length]
 
                         for i in range(
