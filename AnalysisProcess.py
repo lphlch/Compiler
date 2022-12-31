@@ -54,6 +54,7 @@ class SynAnalyze(object):
 
                 # if action[0] == 'acc':
                 print('========================')
+                print('symbol_stack:', symbol_stack)
                 print("status_stack:", status_stack)
                 print("top_status:", top_status)
                 print("top_status_action:", self.LRTable[top_status])
@@ -108,6 +109,8 @@ class SynAnalyze(object):
 
                         next_line += 1
                         print("r! status_stack:", status_stack)
+                        print("goto_table:", self.LRTable[status_stack[-1]])
+
                         go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
                     else:
                         next_line = 1
@@ -121,9 +124,13 @@ class SynAnalyze(object):
                         tree_layer.append(("$", 0, tree_layer_num[0]))
                         tree_line.append([0, tree_layer_num[0], 0, 0])
                         status_stack.pop()
-                        print("r==$,pop status_stack:", status_stack)
-                        # go = status_stack[-1]
+                        
+                        print("r==$,pop a stack status_stack:", status_stack)
+                        print("goto_table:", self.LRTable[status_stack[-1]])
 
+                        go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
+
+                    print("left:", left)
                     print("go:", go)
 
                     if next_line == len(tree_layer_num):
