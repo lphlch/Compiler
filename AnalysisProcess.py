@@ -2,10 +2,11 @@ import json
 import sys
 from pyecharts import options as opts
 from pyecharts.charts import Tree
+from Translation import TranslationProcess
 
 
 class SynAnalyze(object):
-    "语法分析类"
+    # 语法分析类
 
     def __init__(self):
         self.firstSet = dict()  # 终结符和非终结符的first集
@@ -16,7 +17,8 @@ class SynAnalyze(object):
         self.LRTable = dict()  # LR(1)分析表
 
     def runOnLRTable(self, tokens, SynAnalyzeProcess_path):
-        "进行移进规约分析"
+        # 进行移进规约分析
+        print("tokens", tokens)
         status_stack = [0]  # 状态栈
         symbol_stack = [("#", -1, 1)]  # 符号栈
         tree_layer = list()
@@ -27,10 +29,13 @@ class SynAnalyze(object):
         step = 0
         fp = open(SynAnalyzeProcess_path, "w")  # 分析过程存在这里
         message = ""  # 报错信息/成功信息
+        
+        translationProcess = TranslationProcess()
+        
         while True:
             step += 1
             top_status = status_stack[-1]
-            now_line_num, now_token = tokens[-1]
+            now_line_num, now_token, values = tokens[-1]
             if step != 1:
                 fp.write("\ntoken:%s" % now_token)
             else:
@@ -41,36 +46,48 @@ class SynAnalyze(object):
             fp.write(str(status_stack))
             fp.write("\n")
 
+            print("====================")
+            print("nowToken:", now_token)
+            print("token value:", values)
+            print("symbol stack:", symbol_stack)
+            print("status stack:", status_stack)
+            print("action:", self.LRTable[top_status][now_token])
+
             # if now_token in self.LRTable[top_status].keys():  # 进行状态转移
             if now_token in self.LRTable[top_status]:  # 进行状态转移
                 action = self.LRTable[top_status][now_token]
-                # print(action)
-                # if action[0] == 'acc':
+
                 if action == 0:  # 成功
                     isSuccess = True
                     break
-                # elif action[0] == 'S':
+
                 elif action > 0:  # 移进
                     if len(tree_layer_num) == 0:
                         tree_layer_num.append(0)
                     else:
                         tree_layer_num[0] += 1
-                    # status_stack.append(action[1])
                     status_stack.append(action)
-                    symbol_stack.append((now_token, 0, tree_layer_num[0]))
+                    # 将符号、词法分析的属性加入到符号栈中
+                    symbol_stack.append((now_token, 0, tree_layer_num[0], values))
                     tree_layer.append((now_token, 0, tree_layer_num[0]))
                     tokens = tokens[:-1]
-                # elif action[0] == 'r':
-                elif action < 0:  # 规约
-                    # production = self.productions[action[1]]
 
+                elif action < 0:  # 规约
                     production = self.productions[-action]  # 获取产生式（包含点等信息
-                    # left = list(production.keys())[0]
                     left = production["l"]  # 产生式左部分
+                    right = production["r"]  # 产生式右部分
                     next_line = 0
-                    # if production[left] != ['$']:  # 不需修改两个栈
-                    if production["r"] != []:  # 不为空要做改变，否则不改变
-                        right_length = len(production["r"])
+
+                    # 根据产生式，进行对应的翻译操作
+                    print("production:", left, "->", right)
+                    # 传入产生式左部符号，产生式右部带属性的符号，返回一个归约后左部符号的属性字典
+                    newValues = translationProcess.translate(
+                        left, symbol_stack[-len(right) :]
+                    )
+
+                    # 判断是否为空产生式
+                    if right != []:  # 不为空要做改变，否则不改变
+                        right_length = len(right)
                         status_stack = status_stack[:-right_length]
                         # symbol_stack = symbol_stack[:-right_length]
                         for i in range(
@@ -93,17 +110,21 @@ class SynAnalyze(object):
                             tree_layer_num[0] += 1
                         tree_layer.append(("空", 0, tree_layer_num[0]))
                         tree_line.append([0, tree_layer_num[0], 0, 0])
-                    go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态 ?????
+
+                    go = self.LRTable[status_stack[-1]][left]  # 归约时判断接下来的状态
+
                     if next_line == len(tree_layer_num):
                         tree_layer_num.append(0)
                     else:
                         tree_layer_num[next_line] += 1
                     for i in tree_line[-right_length:]:
                         i[2], i[3] = next_line, tree_layer_num[next_line]
+
                     # status_stack.append(go[1])
                     status_stack.append(go)
-                    symbol_stack.append((left, next_line, tree_layer_num[next_line]))
+                    symbol_stack.append((left, next_line, tree_layer_num[next_line],newValues))
                     tree_layer.append((left, next_line, tree_layer_num[next_line]))
+
             else:  # 无法进行状态转移，报错
                 # print('line %s' % now_line_num)
                 # print('found: %s' % now_token)Syntax Error!
@@ -120,6 +141,8 @@ class SynAnalyze(object):
                 break
         if isSuccess == True:
             message += "\nSyntax Analyze Successfully!\n"
+            translationProcess.genCode()
+        
         else:
             message += "\nSyntax Error!\n"
         fp.write(message)
@@ -128,7 +151,7 @@ class SynAnalyze(object):
         return isSuccess, tree_layer, tree_line, message
 
     def get_tree(self, tree_layer, tree_line):
-        "获取画语法树所需信息"
+        # 获取画语法树所需信息
         pre_data = dict()
         for i in tree_layer:
             if i[1] not in pre_data:
@@ -175,19 +198,33 @@ class SynAnalyze(object):
         # Syn_tree.render(path=tree_path)
 
     def analyze(self, token_table_path, SynAnalyzeProcess_path):
-        "语法分析，顶层函数"
+        # 语法分析，顶层函数
         token_table = open(token_table_path, "r")  # 读token表并处理
         tokens = list()
         for line in token_table:
             line = line[:-1]
             next_token_type = line.split(" ")[1]
-            if next_token_type == "identifier" or next_token_type == "number":
-                tokens.append((line.split(" ")[0], next_token_type))
+            if next_token_type == "identifier":
+                tokens.append(
+                    (
+                        line.split(" ")[0],
+                        next_token_type,
+                        {"identifierName": line.split(" ")[2]},
+                    )
+                )
+            elif next_token_type == "number":
+                tokens.append(
+                    (
+                        line.split(" ")[0],
+                        next_token_type,
+                        {"numberValue": line.split(" ")[2]},
+                    )
+                )
             else:
                 next_token = line.split(" ")[1]
-                tokens.append((line.split(" ")[0], next_token))
+                tokens.append((line.split(" ")[0], next_token, {}))
         # print(tokens)
-        tokens.append((str(0), "#"))
+        tokens.append((str(0), "#", {}))
         token_table.close()
         isSuccess, tree_layer, tree_line, message = self.runOnLRTable(
             tokens, SynAnalyzeProcess_path

@@ -19,11 +19,11 @@ ACTION_GOTO, point_grammar = GET_ACTION_GOTO(
 getSentenceInput(1)  # input sentence, save to file sentence.txt
 lexResultList = callLex("./input/input1.c")  # call Lex.exe to analyze input
 
-print(lexResultList)  # print result of Lex.exe, for debug
+# print(lexResultList)  # print result of Lex.exe, for debug
 
 formalList = processLexResult(lexResultList)  # get formal sentence
 
 analysis = Analysis(ACTION_GOTO, point_grammar)
 
 
-webbrowser.open_new_tab(r'output\语法树.html')
+# webbrowser.open_new_tab(r'output\语法树.html')
