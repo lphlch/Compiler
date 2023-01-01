@@ -35,7 +35,9 @@ class TranslationProcess:
 
         self.codes = []
 
-        self.VALUEDIR = 3
+        self.VALUEDIR = 3   # the position of values dict in the symbol stack
+        
+        # the type of production
         self.EXPRESSION = [
             "expression",
             "first_expression",
