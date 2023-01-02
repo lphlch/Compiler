@@ -26,4 +26,4 @@ formalList = processLexResult(lexResultList)  # get formal sentence
 analysis = Analysis(ACTION_GOTO, point_grammar)
 
 
-# webbrowser.open_new_tab(r'output\语法树.html')
+webbrowser.open_new_tab(r'output\语法树.html')
