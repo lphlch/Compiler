@@ -224,7 +224,10 @@ void lexical_analysis::print_token_stream(const string file_path)
 	file_out.open(file_path, ios::out);
 	for (auto it = token_stream.begin(); it != token_stream.end(); it++)
 	{
-		file_out << (*it).row << ' ' << (*it).token << ' ' << (*it).value << endl;
+		if((*it).token[0]=='|'&&(*it).token[1]=='|')
+		    file_out << (*it).row << ' ' << "or" << ' ' << (*it).value << endl;
+		else
+		    file_out << (*it).row << ' ' << (*it).token << ' ' << (*it).value << endl;
 	}
 }
 // µÃµ½token_stream
