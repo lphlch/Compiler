@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 
 errorFile = open(r'output\error.txt', 'w')
 errorFile.close()
-
+webFile = open(r'output\语法树.html', 'w')
+webFile.close()
 inputs, keywordsList = getInput(1)  # input grammar
 grammar = transformInput(inputs)  # transform grammar to a list of productions
 firstSet = getFirstSet(grammar, keywordsList)  # get first set

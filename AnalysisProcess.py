@@ -52,8 +52,14 @@ class SynAnalyze(object):
             print("token value:", values)
             print("symbol stack:", symbol_stack)
             print("status stack:", status_stack)
-            print("action:", self.LRTable[top_status][now_token])
-
+            try:
+                print("action:", self.LRTable[top_status][now_token])
+            except:
+                print("ERROR: Synatx error! @ line %s" % now_line_num)
+                errorFile = open(r'output\error.txt', 'a')
+                errorFile.write("ERROR: Synatx error in line %d @ AnalysisProcess.60\n" % int(now_line_num))
+                return False,tree_layer, tree_line, message
+                
             # if now_token in self.LRTable[top_status].keys():  # 进行状态转移
             if now_token in self.LRTable[top_status]:  # 进行状态转移
                 action = self.LRTable[top_status][now_token]
@@ -235,6 +241,7 @@ class SynAnalyze(object):
             self.get_tree(tree_layer, tree_line)
             return True, message
         else:
+            self.get_tree(tree_layer, tree_line)
             return False, message
 
 
