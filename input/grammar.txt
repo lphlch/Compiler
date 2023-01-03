@@ -23,10 +23,12 @@ assignment_operator->= | += | -= | *= | /= | %= | ^= | &=
 type_specifier->int | float | void
 
 constant_expression->or_bool_expression
-or_bool_expression->or_bool_expression or_operator M and_bool_expression | and_bool_expression
-and_bool_expression->and_bool_expression and_operator M single_bool_expression | single_bool_expression
+or_bool_expression->Q1 or_operator M and_bool_expression | and_bool_expression
+and_bool_expression->Q2 and_operator M single_bool_expression | single_bool_expression
 single_bool_expression->single_bool_expression bool_operator first_expression | first_expression
 M->$
+Q1->or_bool_expression
+Q2->and_bool_expression
 
 first_expression->first_expression first_operator second_expression | second_expression
 second_expression->second_expression second_operator primary_expression | third_expression
@@ -58,11 +60,12 @@ assignment_expression_list_suffix->, assignment_expression assignment_expression
 
 jump_statement->return expression ; | return ;
 
-selection_statement->if ( constant_expression ) M_selection_statement statement N_selection_statement else M_selection_statement statement | if ( constant_expression ) M_selection_statement statement
-iteration_statement->while N_iteration_statement ( constant_expression ) M_selection_statement statement
+selection_statement->if Q ( constant_expression ) M_selection_statement statement N_selection_statement else M_selection_statement statement | if Q ( constant_expression ) M_selection_statement statement
+iteration_statement->while N_iteration_statement Q ( constant_expression ) M_selection_statement statement
 M_selection_statement->$
 N_selection_statement->$
 N_iteration_statement->$
+Q->$
 ##
 number
 identifier
