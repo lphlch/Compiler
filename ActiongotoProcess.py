@@ -245,7 +245,7 @@ def GET_ACTION_GOTO(_grammar, keywordsList):
                 print("%-4d" % ACTION_GOTO[i][j], end=" ", file=ACTIONGOTOFile)
             except:
                 print("    ", end=" ", file=ACTIONGOTOFile)
-        # print(file=ACTIONGOTOFile)
+        print(file=ACTIONGOTOFile)
 
     return ACTION_GOTO, grammar
 
