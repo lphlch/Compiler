@@ -326,9 +326,17 @@ class TranslationProcess:
     def genCode(self):
         print("--------------------")
         num = 0
+        codeFile = open("output/code.txt", "w")
         for code in self.codes:
             print(num, ":", code)
+            codeFile.write(str(num) + ":" + str(code)+"\n")
             num = num + 1
+        
+        codeFile.close()
+            
+        
+    
+        
 
     def translate_relop(self, op, arg1, arg2):  # a>=b之类的翻译
         if arg1.get("identifierName") != None:

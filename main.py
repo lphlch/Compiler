@@ -3,6 +3,7 @@ from SentenceFormaler import getSentenceInput, callLex, processLexResult
 from ActiongotoProcess import GET_ACTION_GOTO
 from AnalysisProcess import Analysis
 import webbrowser
+from bs4 import BeautifulSoup
 
 inputs, keywordsList = getInput(1)  # input grammar
 grammar = transformInput(inputs)  # transform grammar to a list of productions
@@ -25,5 +26,19 @@ formalList = processLexResult(lexResultList)  # get formal sentence
 
 analysis = Analysis(ACTION_GOTO, point_grammar)
 
+# add code to html
+codeFile = open(r'output\code.txt', 'r')
+webFile = open(r'output\语法树.html', 'r')
+content = webFile.readlines()
+for i in range(len(content)):
+    if content[i].find('/body') != -1:
+        codeList = codeFile.readlines()
+        for j in range(len(codeList)):
+            content.insert(i+j,codeList[j]+'<br>')
+        break
+webFile = open(r'output\语法树.html', 'w')
+webFile.writelines(content)
+webFile.close()
+codeFile.close()
 
 webbrowser.open_new_tab(r'output\语法树.html')
