@@ -65,7 +65,8 @@ class TranslationProcess:
             "single_bool_expression",
             "constant_expression",
             "Q1",
-            "Q2"
+            "Q2",
+            "Q3"
         ]  # ? not sure for single_expression and constant_expression
         self.DECLARATION_ASSIGN = ["declaration_parameter_assign"]
         self.DECLARATION = ["declaration_parameter"]
@@ -133,16 +134,16 @@ class TranslationProcess:
                 #input()
                 parentValue = childrenNode[0][self.VALUEDIR]
                 #temp=0
-                if parentNodeStr == "constant_expression"and transfomer==1:#要进行jnz转换
-                    temp=0
-                    if (childrenNode[0][self.VALUEDIR].get("truelist") == None):
-                        #print(temp,parentValue,childrenNode)
-                        parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes)+1}}
-                        self.translate_id(childrenNode[0][self.VALUEDIR])
-                elif parentNodeStr=="Q1" or parentNodeStr=="Q2":
+                if parentNodeStr=="Q1" or parentNodeStr=="Q2":
                     if(childrenNode[0][self.VALUEDIR].get("truelist")==None):
                         parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes) + 1}}
                         self.translate_id(childrenNode[0][self.VALUEDIR])
+            elif parentNodeStr=="Q3":
+                if(childrenNode[1][self.VALUEDIR].get("truelist")==None):
+                    parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes) + 1}}
+                    self.translate_id(childrenNode[1][self.VALUEDIR])
+                else:
+                    parentValue = childrenNode[1][self.VALUEDIR]
             else:
                 # if more than one child, do translation
                 if "bool_operator" in childrenNode[1]:  # E->id1 relop id2
@@ -250,10 +251,10 @@ class TranslationProcess:
             parentValue = {"op": childrenNode[0][0]}
 
         elif parentNodeStr in self.IF_EXPERSSION:
-            if len(childrenNode) == 7:  # 不含else
-                E = childrenNode[3][self.VALUEDIR]
-                S = childrenNode[6][self.VALUEDIR]
-                quad = childrenNode[5][self.VALUEDIR].get("quad")
+            if len(childrenNode) == 4:  # 不含else
+                E = childrenNode[1][self.VALUEDIR]
+                S = childrenNode[3][self.VALUEDIR]
+                quad = childrenNode[2][self.VALUEDIR].get("quad")
                 backlist = E.get("truelist")
                 for item in backlist:  # 回填
                     item = int(item)
@@ -268,12 +269,12 @@ class TranslationProcess:
                     self.codes[item][3] = quad
 
             else:  # 含else
-                E = childrenNode[3][self.VALUEDIR]
-                quad1 = childrenNode[5][self.VALUEDIR].get("quad")
-                S1 = childrenNode[6][self.VALUEDIR]
-                N = childrenNode[7][self.VALUEDIR]
-                quad2 = childrenNode[9][self.VALUEDIR].get("quad")
-                S2 = childrenNode[10][self.VALUEDIR]
+                E = childrenNode[1][self.VALUEDIR]
+                quad1 = childrenNode[2][self.VALUEDIR].get("quad")
+                S1 = childrenNode[3][self.VALUEDIR]
+                N = childrenNode[4][self.VALUEDIR]
+                quad2 = childrenNode[6][self.VALUEDIR].get("quad")
+                S2 = childrenNode[7][self.VALUEDIR]
                 backlist1 = E.get("truelist")
                 for item in backlist1:  # 回填1
                     item = int(item)
@@ -296,9 +297,9 @@ class TranslationProcess:
 
         elif parentNodeStr in self.WHILE_EXPERSSION:  # while
             quad1 = childrenNode[1][self.VALUEDIR].get("quad")
-            E = childrenNode[4][self.VALUEDIR]
-            quad2 = childrenNode[6][self.VALUEDIR].get("quad")
-            S = childrenNode[7][self.VALUEDIR]
+            E = childrenNode[2][self.VALUEDIR]
+            quad2 = childrenNode[3][self.VALUEDIR].get("quad")
+            S = childrenNode[4][self.VALUEDIR]
             if S.get("nextlist") != None:
                 backlist1 = S.get("nextlist")
             else:

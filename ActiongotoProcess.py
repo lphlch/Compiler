@@ -211,7 +211,7 @@ def GET_ACTION_GOTO(_grammar, keywordsList):
     ts = sorted(list(Terminal_symbol - {START_SYMBOL}))
     nts = sorted(list(nonTerminal_symbol - {START_SYMBOL}))
 
-    # print("   ", '  '.join(map(lambda x: (x + "  ")[:8], ts)), "", '  '.join(map(lambda x: (x + "  ")[:8], nts)),file=ACTIONGOTOFile)
+    print("   ", '  '.join(map(lambda x: (x + "  ")[:8], ts)), "", '  '.join(map(lambda x: (x + "  ")[:8], nts)),file=ACTIONGOTOFile)
 
     for i in range(len(CLOSURESET)):
         print("%-3d" % i, end=" ", file=ACTIONGOTOFile)
@@ -245,7 +245,7 @@ def GET_ACTION_GOTO(_grammar, keywordsList):
                 print("%-4d" % ACTION_GOTO[i][j], end=" ", file=ACTIONGOTOFile)
             except:
                 print("    ", end=" ", file=ACTIONGOTOFile)
-        # print(file=ACTIONGOTOFile)
+        print(file=ACTIONGOTOFile)
 
     return ACTION_GOTO, grammar
 
