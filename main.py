@@ -5,6 +5,9 @@ from AnalysisProcess import Analysis
 import webbrowser
 from bs4 import BeautifulSoup
 
+errorFile = open(r'output\error.txt', 'w')
+errorFile.close()
+
 inputs, keywordsList = getInput(1)  # input grammar
 grammar = transformInput(inputs)  # transform grammar to a list of productions
 firstSet = getFirstSet(grammar, keywordsList)  # get first set
@@ -28,14 +31,20 @@ analysis = Analysis(ACTION_GOTO, point_grammar)
 
 # add code to html
 codeFile = open(r'output\code.txt', 'r')
+errorFile = open(r'output\error.txt', 'r')
 webFile = open(r'output\语法树.html', 'r')
 content = webFile.readlines()
 for i in range(len(content)):
     if content[i].find('/body') != -1:
         codeList = codeFile.readlines()
+        errorList = errorFile.readlines()
+        for j in range(len(errorList)):
+            content.insert(i+j,errorList[j]+'<br>')
         for j in range(len(codeList)):
-            content.insert(i+j,codeList[j]+'<br>')
+            content.insert(i+j+len(errorList),codeList[j]+'<br>')
+
         break
+    
 webFile = open(r'output\语法树.html', 'w')
 webFile.writelines(content)
 webFile.close()

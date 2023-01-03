@@ -401,7 +401,14 @@ class TranslationProcess:
             if value.get("identifierName") != None:
                 typeOfValue = self.symbolTable.get(value["identifierName"])[1]
             else:
-                typeOfValue = "int" if value["numberValue"].find(".") == -1 else "float"
+                
+                try:
+                    typeOfValue = "int" if value["numberValue"].find(".") == -1 else "float"
+                except:
+                    errorFile = open("output/error.txt", "a")
+                    errorFile.write("Notice : variable declared without assign @ Translation.409\n")
+                    errorFile.close()
+                    return
 
         if value.get("identifierName") != None:
             value = value.get("identifierName")
