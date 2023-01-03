@@ -15,6 +15,7 @@ class SynAnalyze(object):
         self.nonTerminators = list()  # 非终结符集合
         self.productionsDict = dict()  # 将产生式集合按照左侧的非终结符归类
         self.LRTable = dict()  # LR(1)分析表
+        self.transfomer=0
 
     def runOnLRTable(self, tokens, SynAnalyzeProcess_path):
         # 进行移进规约分析
@@ -81,8 +82,8 @@ class SynAnalyze(object):
                     # 根据产生式，进行对应的翻译操作
                     print("production:", left, "->", right)
                     # 传入产生式左部符号，产生式右部带属性的符号，返回一个归约后左部符号的属性字典
-                    newValues = translationProcess.translate(
-                        left, symbol_stack[-len(right) :]
+                    newValues,self.transfomer = translationProcess.translate(
+                        left, symbol_stack[-len(right) :],self.transfomer
                     )
 
                     # 判断是否为空产生式

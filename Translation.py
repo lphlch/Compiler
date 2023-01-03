@@ -50,6 +50,9 @@ class TranslationProcess:
         self.N = [
             "N_selection_statement",
         ]
+        self.Q=[
+            "Q"
+        ]
         self.IF_EXPERSSION = [
             "selection_statement",
         ]
@@ -61,12 +64,14 @@ class TranslationProcess:
             "and_bool_expression",
             "single_bool_expression",
             "constant_expression",
+            "Q1",
+            "Q2"
         ]  # ? not sure for single_expression and constant_expression
         self.DECLARATION_ASSIGN = ["declaration_parameter_assign"]
         self.DECLARATION = ["declaration_parameter"]
         self.ASSIGN = ["assignment_expression"]
 
-    def translate(self, parentNodeStr, childrenNode):
+    def translate(self, parentNodeStr, childrenNode,transfomer):
         # parentNodeStr : left of production, only string
         # childrenNode : right of production, with values
         # example : translate("E", [("E",{}), ("+",{}), ("T",{values})])
@@ -76,6 +81,8 @@ class TranslationProcess:
         parentValue = {}
         print("parentNodeStr", parentNodeStr)
         print("childrenNode", childrenNode)
+        print("transfomer:",transfomer)
+        temp=transfomer
 
         if parentNodeStr in self.M:
             parentValue = {"quad": str(len(self.codes))}
@@ -84,6 +91,9 @@ class TranslationProcess:
             parentValue = {"nextlist": {str(len(self.codes))}}
             code = ["j", "-", "-", "0"]
             self.codes.append(code)
+
+        elif parentNodeStr in self.Q:
+            temp=1
 
         elif parentNodeStr in self.EXPRESSION:  # if is arth expression, do translation
             if (
@@ -120,7 +130,19 @@ class TranslationProcess:
         elif parentNodeStr in self.BOOL_EXPRESSION:
             if len(childrenNode) == 1:
                 # if only one child, assign child value to parent
+                #input()
                 parentValue = childrenNode[0][self.VALUEDIR]
+                #temp=0
+                if parentNodeStr == "constant_expression"and transfomer==1:#要进行jnz转换
+                    temp=0
+                    if (childrenNode[0][self.VALUEDIR].get("truelist") == None):
+                        #print(temp,parentValue,childrenNode)
+                        parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes)+1}}
+                        self.translate_id(childrenNode[0][self.VALUEDIR])
+                elif parentNodeStr=="Q1" or parentNodeStr=="Q2":
+                    if(childrenNode[0][self.VALUEDIR].get("truelist")==None):
+                        parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes) + 1}}
+                        self.translate_id(childrenNode[0][self.VALUEDIR])
             else:
                 # if more than one child, do translation
                 if "bool_operator" in childrenNode[1]:  # E->id1 relop id2
@@ -136,7 +158,7 @@ class TranslationProcess:
                     quad = childrenNode[2][self.VALUEDIR]
                     quad = quad.get("quad")
                     arg1 = childrenNode[0][self.VALUEDIR]
-                    arg2 = childrenNode[2][self.VALUEDIR]
+                    arg2 = childrenNode[3][self.VALUEDIR]
                     if arg1.get("truelist") == None and arg2.get("truelist") == None:
                         truelist1 = {len(self.codes)}
                         falselist1 = {len(self.codes) + 1}
@@ -173,7 +195,7 @@ class TranslationProcess:
                     quad = childrenNode[2][self.VALUEDIR]
                     quad = quad.get("quad")
                     arg1 = childrenNode[0][self.VALUEDIR]
-                    arg2 = childrenNode[2][self.VALUEDIR]
+                    arg2 = childrenNode[3][self.VALUEDIR]
                     if arg1.get("truelist") == None and arg2.get("truelist") == None:
                         truelist1 = {len(self.codes)}
                         falselist1 = {len(self.codes) + 1}
@@ -228,10 +250,10 @@ class TranslationProcess:
             parentValue = {"op": childrenNode[0][0]}
 
         elif parentNodeStr in self.IF_EXPERSSION:
-            if len(childrenNode) == 6:  # 不含else
-                E = childrenNode[2][self.VALUEDIR]
-                S = childrenNode[5][self.VALUEDIR]
-                quad = childrenNode[4][self.VALUEDIR].get("quad")
+            if len(childrenNode) == 7:  # 不含else
+                E = childrenNode[3][self.VALUEDIR]
+                S = childrenNode[6][self.VALUEDIR]
+                quad = childrenNode[5][self.VALUEDIR].get("quad")
                 backlist = E.get("truelist")
                 for item in backlist:  # 回填
                     item = int(item)
@@ -246,12 +268,12 @@ class TranslationProcess:
                     self.codes[item][3] = quad
 
             else:  # 含else
-                E = childrenNode[2][self.VALUEDIR]
-                quad1 = childrenNode[4][self.VALUEDIR].get("quad")
-                S1 = childrenNode[5][self.VALUEDIR]
-                N = childrenNode[6][self.VALUEDIR]
-                quad2 = childrenNode[8][self.VALUEDIR].get("quad")
-                S2 = childrenNode[9][self.VALUEDIR]
+                E = childrenNode[3][self.VALUEDIR]
+                quad1 = childrenNode[5][self.VALUEDIR].get("quad")
+                S1 = childrenNode[6][self.VALUEDIR]
+                N = childrenNode[7][self.VALUEDIR]
+                quad2 = childrenNode[9][self.VALUEDIR].get("quad")
+                S2 = childrenNode[10][self.VALUEDIR]
                 backlist1 = E.get("truelist")
                 for item in backlist1:  # 回填1
                     item = int(item)
@@ -274,9 +296,9 @@ class TranslationProcess:
 
         elif parentNodeStr in self.WHILE_EXPERSSION:  # while
             quad1 = childrenNode[1][self.VALUEDIR].get("quad")
-            E = childrenNode[3][self.VALUEDIR]
-            quad2 = childrenNode[5][self.VALUEDIR].get("quad")
-            S = childrenNode[6][self.VALUEDIR]
+            E = childrenNode[4][self.VALUEDIR]
+            quad2 = childrenNode[6][self.VALUEDIR].get("quad")
+            S = childrenNode[7][self.VALUEDIR]
             if S.get("nextlist") != None:
                 backlist1 = S.get("nextlist")
             else:
@@ -299,7 +321,7 @@ class TranslationProcess:
         # todo: add more translation function here
 
         print("return parentValue", parentValue)
-        return parentValue
+        return parentValue,temp
 
     def genCode(self):
         print("--------------------")
