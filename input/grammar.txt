@@ -60,12 +60,12 @@ assignment_expression_list_suffix->, assignment_expression assignment_expression
 
 jump_statement->return expression ; | return ;
 
-selection_statement->if Q ( constant_expression ) M_selection_statement statement N_selection_statement else M_selection_statement statement | if Q ( constant_expression ) M_selection_statement statement
-iteration_statement->while N_iteration_statement Q ( constant_expression ) M_selection_statement statement
+selection_statement->if Q3  M_selection_statement statement N_selection_statement else M_selection_statement statement | if Q3 M_selection_statement statement
+iteration_statement->while N_iteration_statement Q3  M_selection_statement statement
 M_selection_statement->$
 N_selection_statement->$
 N_iteration_statement->$
-Q->$
+Q3->( constant_expression )
 ##
 number
 identifier
