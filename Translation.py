@@ -50,9 +50,7 @@ class TranslationProcess:
         self.N = [
             "N_selection_statement",
         ]
-        self.Q=[
-            "Q"
-        ]
+        self.Q = ["Q"]
         self.IF_EXPERSSION = [
             "selection_statement",
         ]
@@ -66,13 +64,13 @@ class TranslationProcess:
             "constant_expression",
             "Q1",
             "Q2",
-            "Q3"
+            "Q3",
         ]  # ? not sure for single_expression and constant_expression
         self.DECLARATION_ASSIGN = ["declaration_parameter_assign"]
         self.DECLARATION = ["declaration_parameter"]
         self.ASSIGN = ["assignment_expression"]
 
-    def translate(self, parentNodeStr, childrenNode,transfomer):
+    def translate(self, parentNodeStr, childrenNode, transfomer):
         # parentNodeStr : left of production, only string
         # childrenNode : right of production, with values
         # example : translate("E", [("E",{}), ("+",{}), ("T",{values})])
@@ -82,8 +80,8 @@ class TranslationProcess:
         parentValue = {}
         print("parentNodeStr", parentNodeStr)
         print("childrenNode", childrenNode)
-        print("transfomer:",transfomer)
-        temp=transfomer
+        print("transfomer:", transfomer)
+        temp = transfomer
 
         if parentNodeStr in self.M:
             parentValue = {"quad": str(len(self.codes))}
@@ -94,7 +92,7 @@ class TranslationProcess:
             self.codes.append(code)
 
         elif parentNodeStr in self.Q:
-            temp=1
+            temp = 1
 
         elif parentNodeStr in self.EXPRESSION:  # if is arth expression, do translation
             if (
@@ -131,16 +129,22 @@ class TranslationProcess:
         elif parentNodeStr in self.BOOL_EXPRESSION:
             if len(childrenNode) == 1:
                 # if only one child, assign child value to parent
-                #input()
+                # input()
                 parentValue = childrenNode[0][self.VALUEDIR]
-                #temp=0
-                if parentNodeStr=="Q1" or parentNodeStr=="Q2":
-                    if(childrenNode[0][self.VALUEDIR].get("truelist")==None):
-                        parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes) + 1}}
+                # temp=0
+                if parentNodeStr == "Q1" or parentNodeStr == "Q2":
+                    if childrenNode[0][self.VALUEDIR].get("truelist") == None:
+                        parentValue = {
+                            "truelist": {len(self.codes)},
+                            "falselist": {len(self.codes) + 1},
+                        }
                         self.translate_id(childrenNode[0][self.VALUEDIR])
-            elif parentNodeStr=="Q3":
-                if(childrenNode[1][self.VALUEDIR].get("truelist")==None):
-                    parentValue = {"truelist": {len(self.codes)}, "falselist": {len(self.codes) + 1}}
+            elif parentNodeStr == "Q3":
+                if childrenNode[1][self.VALUEDIR].get("truelist") == None:
+                    parentValue = {
+                        "truelist": {len(self.codes)},
+                        "falselist": {len(self.codes) + 1},
+                    }
                     self.translate_id(childrenNode[1][self.VALUEDIR])
                 else:
                     parentValue = childrenNode[1][self.VALUEDIR]
@@ -233,7 +237,7 @@ class TranslationProcess:
             # if is declaration, need to emit a assign code & add to symbol table
             name = childrenNode[0][self.VALUEDIR]
             value = childrenNode[2][self.VALUEDIR]
-            newName = self.translateAssign(name, value)
+            newName = self.translateAssign(name, value, True)
             parentValue = {"identifierName": newName}
 
         elif parentNodeStr in self.DECLARATION_ASSIGN:
@@ -322,7 +326,7 @@ class TranslationProcess:
         # todo: add more translation function here
 
         print("return parentValue", parentValue)
-        return parentValue,temp
+        return parentValue, temp
 
     def genCode(self):
         print("--------------------")
@@ -330,14 +334,10 @@ class TranslationProcess:
         codeFile = open("output/code.txt", "w")
         for code in self.codes:
             print(num, ":", code)
-            codeFile.write(str(num) + ":" + str(code)+"\n")
+            codeFile.write(str(num) + ":" + str(code) + "\n")
             num = num + 1
-        
+
         codeFile.close()
-            
-        
-    
-        
 
     def translate_relop(self, op, arg1, arg2):  # a>=b之类的翻译
         if arg1.get("identifierName") != None:
@@ -386,7 +386,7 @@ class TranslationProcess:
     #     code = [":=", value, "", name]
     #     return code
 
-    def translateAssign(self, name, value):
+    def translateAssign(self, name, value, isFirstDeclare=False):
         # a = 1; a = b;
         # name = a, value = 1; name = a, value = b
         # target : := 1 - a; := b - a
@@ -394,20 +394,51 @@ class TranslationProcess:
         # get name from symbol table
         try:
             kind, typeOfValue, normal, _ = self.symbolTable.get(name["identifierName"])
+            if isFirstDeclare:
+                # redeclare
+                print("ERROR : variable redeclare")
+                errorFile = open("output/error.txt", "a")
+                name1 = name.get("identifierName")
+                errorFile.write(
+                    "ERROR : variable ( "
+                    + str(name1)
+                    + " ) redeclare @ Translation.400\n"
+                )
+                errorFile.close()
         except:
-            print("Notice : variable not declared")
+            # not declared before
+            if not isFirstDeclare:
+                print("ERROR : variable not declared")
+                errorFile = open("output/error.txt", "a")
+                name1 = name.get("identifierName")
+                errorFile.write(
+                    "ERROR : variable ( "
+                    + str(name1)
+                    + " ) not declared @ Translation.408\n"
+                )
+                errorFile.close()
+
             # add information of symbol table
             kind = "var"
             if value.get("identifierName") != None:
                 typeOfValue = self.symbolTable.get(value["identifierName"])[1]
             else:
-                
+
                 try:
-                    typeOfValue = "int" if value["numberValue"].find(".") == -1 else "float"
+                    typeOfValue = (
+                        "int" if value["numberValue"].find(".") == -1 else "float"
+                    )
                 except:
                     errorFile = open("output/error.txt", "a")
-                    errorFile.write("Notice : variable declared without assign @ Translation.409\n")
+                    name1 = name.get("identifierName")
+                    errorFile.write(
+                        "Notice : variable ( "
+                        + str(name1)
+                        + " ) declared without assign @ Translation.421\n"
+                    )
                     errorFile.close()
+
+                    self.symbolTable.set(name1, kind, None, False, value)
                     return
 
         if value.get("identifierName") != None:

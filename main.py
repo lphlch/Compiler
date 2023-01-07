@@ -3,11 +3,10 @@ from SentenceFormaler import getSentenceInput, callLex, processLexResult
 from ActiongotoProcess import GET_ACTION_GOTO
 from AnalysisProcess import Analysis
 import webbrowser
-from bs4 import BeautifulSoup
 
-errorFile = open(r'output\error.txt', 'w')
+errorFile = open(r"output\error.txt", "w")
 errorFile.close()
-webFile = open(r'output\语法树.html', 'w')
+webFile = open(r"output\语法树.html", "w")
 webFile.close()
 inputs, keywordsList = getInput(1)  # input grammar
 grammar = transformInput(inputs)  # transform grammar to a list of productions
@@ -31,24 +30,26 @@ formalList = processLexResult(lexResultList)  # get formal sentence
 analysis = Analysis(ACTION_GOTO, point_grammar)
 
 # add code to html
-codeFile = open(r'output\code.txt', 'r')
-errorFile = open(r'output\error.txt', 'r')
-webFile = open(r'output\语法树.html', 'r')
+codeFile = open(r"output\code.txt", "r")
+errorFile = open(r"output\error.txt", "r")
+webFile = open(r"output\语法树.html", "r")
 content = webFile.readlines()
 for i in range(len(content)):
-    if content[i].find('/body') != -1:
+    if content[i].find("/body") != -1:
         codeList = codeFile.readlines()
         errorList = errorFile.readlines()
         for j in range(len(errorList)):
-            content.insert(i+j,errorList[j]+'<br>')
+            content.insert(i + j, errorList[j] + "<br>")
         for j in range(len(codeList)):
-            content.insert(i+j+len(errorList),codeList[j]+'<br>')
+            content.insert(i + j + len(errorList), codeList[j] + "<br>")
 
         break
-    
-webFile = open(r'output\语法树.html', 'w')
+
+webFile = open(r"output\语法树.html", "w")
 webFile.writelines(content)
 webFile.close()
 codeFile.close()
 
-webbrowser.open_new_tab(r'output\语法树.html')
+print("！！！注意，控制台信息仅供 debug 使用，实际生成语法树结果、四元式结果及语义检查错误，请查看打开的 html 文件！！！")
+
+webbrowser.open_new_tab(r"output\语法树.html")
